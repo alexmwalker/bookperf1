@@ -1,0 +1,586 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="generator" content="pandoc" />
+    <title></title>
+
+    <link rel="stylesheet" href="../assets/css/book.css" type="text/css" />
+</head>
+
+<body>
+    <style>
+
+        #cover {
+            background:  url(../images/Frontend-cover.svg);
+            background-size: 100% auto;
+            color: #fff;
+            font-family: Raleway, sans-serif;
+            width: 8in;
+            height: 10in;
+            position: relative;
+            top: -48px;
+            left:-48px;
+        }
+
+        #cover h1.title {
+            font-size: 81pt;
+            font-weight: normal;
+            line-height: 60pt;
+            color: #fff;
+            text-align: right;
+            text-transform: uppercase;
+            margin: 2.2in .025in 0 0;
+            position: absolute;
+        }
+        #cover h3.tagline{
+              font-size: 18pt;
+              font-weight: normal;
+              line-height: 1.5;
+              color: #fff;
+              position: absolute;
+              top: 8.5in;
+              width: 8in;
+              text-align: center;
+            }  
+        #cover *{
+            outline: 0px red dashed;
+        }
+        #cover span.sizeup{
+            font-size: 110%;
+        }
+        #cover span.sizedown{
+            font-size: 80%;
+        }
+    </style>
+
+
+<section id="cover">
+    <h1 class="title"><span class="sizeup">Front-end</span> <span class="sizedown">Performance</span></h1>
+    <h3 class="tagline">Because every wasted second costs you money</h3>
+</section>
+
+<div class="page-frontmatter front set-front-matter">
+    <div class="title-name">
+        <h2 id="maintitle">Front-end Performance</h2>
+    </div>
+    <p>Copyright © 2017 SitePoint Pty. Ltd.</p>
+    <ul>
+        <li>
+            <strong>Product Manager:</strong> Simon Mackie</li>
+        <li>
+            <strong>English Editor:</strong> Ralph Mason</li>
+        <li>
+            <strong>Technical Editor:</strong> Darin Dimitrov</li>
+        <li>
+            <strong>Cover Designer:</strong> Alex Walker</li>
+    </ul>
+    <h2 id="notice-of-rights">Notice of Rights</h2>
+    <p>All rights reserved. No part of this book may be reproduced, stored in a retrieval system or transmitted in any form
+        or by any means, without the prior written permission of the publisher, except in the case of brief quotations embodied
+        in critical articles or reviews.</p>
+    <h2 id="notice-of-liability">Notice of Liability</h2>
+    <p>The author and publisher have made every effort to ensure the accuracy of the information herein. However, the information
+        contained in this book is sold without warranty, either express or implied. Neither the authors and SitePoint Pty.
+        Ltd., nor its dealers or distributors will be held liable for any damages to be caused either directly or indirectly
+        by the instructions contained in this book, or by the software or hardware products described herein.</p>
+    <h2 id="trademark-notice" class="breakbefore">Trademark Notice</h2>
+    <p>Rather than indicating every occurrence of a trademarked name as such, this book uses the names only in an editorial
+        fashion and to the benefit of the trademark owner with no intention of infringement of the trademark.</p>
+    <div class="small-centered">
+        <p>
+            <img src="../images/sitepoint-gray.svg" alt="SitePoint logo" width="160" />
+            <br/> Published by SitePoint Pty. Ltd.</p>
+        <p>48 Cambridge Street Collingwood
+            <br/> VIC Australia 3066
+            <br/> Web: www.sitepoint.com
+            <br/> Email: books@sitepoint.com</p>
+        <p>ISBN: 978-0-9943469-6-4 (print)</p>
+        <p>ISBN: 978-0-9943470-2-2 (ebook)</p>
+        <br/> Printed and bound in the United States of America</div>
+</div>
+<div class="page-about front set-front-matter">
+    <h2 id="about-sitepoint">About SitePoint</h2>
+    <p>SitePoint specializes in publishing fun, practical, and easy-to-understand content for web professionals. Visit
+        <a class="uri"
+            href="http://www.sitepoint.com/">http://www.sitepoint.com/</a> to access our blogs, books, newsletters, articles, and community forums. You’ll find
+        a stack of information on JavaScript, PHP, Ruby, mobile development, design, and more.</p>
+</div>
+<div class="page-toc front set-front-matter">
+    <h1 id="table-of-contents">Table of Contents</h1>
+    <ul></ul>
+</div><div class="chapter"><div class="ch-head">Chapter</div>    <h1 class="chaptertitle"> Which Browsers Should Your Website Support?</h1>    <h3 class="author">Craig Buckler</h3><p><em>This chapter is part of a series created in partnership with
+<a href="https://www.siteground.com/go/article-sp">SiteGround</a>. Thank you for
+supporting the partners who make SitePoint possible.</em> </p>
+<p><strong>The question <em>&quot;which browsers should my website/app support?&quot;</em> is
+often raised by clients and developers. The simple answer is a list of
+the top N mainstream applications. But has that policy become
+irrelevant?</strong></p>
+<h2 id="what-are-the-most-used-browsers-">What are the Most-used Browsers?</h2>
+<p>The top ten desktop browsers according to
+<a href="http://gs.statcounter.com/">StatCounter</a> for May 2017 were:</p>
+<ol>
+<li>Chrome --- 59.37% market share</li>
+<li>Firefox --- 12.76%</li>
+<li>Safari --- 10.55%</li>
+<li>IE --- 8.32%</li>
+<li>Edge --- 3.42%</li>
+<li>Opera --- 1.99%</li>
+<li>Android (tablet) --- 1.24%</li>
+<li>Yandex Browser --- 0.48%</li>
+<li>UC Browser --- 0.41%</li>
+<li>Coc Coc --- 0.33%</li>
+</ol>
+<p><a href="http://gs.statcounter.com/#desktop+mobile-comparison-ww-monthly-201705-201705-bar">Mobile now accounts for 54.25% of all web
+use</a>
+so we also need to examine the top ten phone browsers:</p>
+<ol>
+<li>Chrome --- 49.23%</li>
+<li>Safari --- 17.73%</li>
+<li>UC Browser --- 15.89%</li>
+<li>Samsung Internet --- 6.58%</li>
+<li>Opera --- 5.03%</li>
+<li>Android --- 3.75%</li>
+<li>IEMobile --- 0.68%</li>
+<li>BlackBerry --- 0.26%</li>
+<li>Edge --- 0.15%</li>
+<li>Nokia --- 0.12%</li>
+</ol>
+<p>The worldwide statistics don&#39;t tell the whole story:</p>
+<ul>
+<li>Patterns vary significantly across regions. For example, Yandex is
+the second most-used Russian browser (12.7% share). Sogou is the
+third most-used browser in China (6.5%). Opera Mobile/Mini has a 28%
+share in Africa.</li>
+<li>New browser releases appear regularly. Chrome, Firefox and Opera
+receive updates every six weeks; it would be impractical to check
+versions going back more than a few months.</li>
+<li>The same browsers can work differently across devices and operating
+systems. Chrome is available for various editions of Windows, macOS,
+Linux, Android, iOS and ChromeOS, but it&#39;s not the same application
+everywhere.</li>
+<li>There is an exceedingly long tail of old and new, weird and
+wonderful browsers on a range of devices including games consoles,
+ebook readers and smart TVs.</li>
+<li>Your site&#39;s analytics will never match global statistics.</li>
+</ul>
+<h2 id="are-browsers-so-different-">Are Browsers So Different?</h2>
+<p>Despite the organic variety of applications, all browsers have the same
+goal: <em>to render web pages</em>. They achieve this with a rendering engine
+and there is some cross-pollination:</p>
+<ol>
+<li>Webkit is used in Safari on macOS and iOS.</li>
+<li>Blink is a fork of Webkit now used in Chrome, Opera, Vivaldi and
+Brave.</li>
+<li>Gecko is used in Firefox.</li>
+<li>Trident is used in Internet Explorer.</li>
+<li>EdgeHTML is an update of Trident used in Edge.</li>
+</ol>
+<p>The majority of browsers use one of these engines. They&#39;re different
+projects with diverse teams but the companies (mostly) collaborate via
+the W3C to ensure new technologies are adopted by everyone in the same
+way. Browsers are closer than they&#39;ve ever been, and modern smartphone
+applications are a match for their desktop counterparts. However, no two
+browsers render in quite the same way. The majority of differences are
+subtle, but they become more pronounced as you move toward cutting-edge
+technologies. A particular feature may be fully implemented in one
+browser, partially implemented in another, and non-existent elsewhere.</p>
+<h2 id="can-my-site-work-in-every-browser-">Can My Site Work in Every Browser?</h2>
+<p>Yes. Techniques such as progressive enhancement (PE) establish a
+baseline (perhaps HTML only) then enhance with CSS and JavaScript when
+support is available. Recent browsers get a modern layout, animated
+effects and interactive widgets. Ancient browsers may get unstyled HTML
+only. Everything else gets something in between. PE works well for
+content sites and apps with basic form-based functionality. It becomes
+less practical as you move toward applications with rich custom
+interfaces. Your new collaborative video editing app is unlikely to work
+in the decade-old IE7. It may not work on a small screen device over a
+3G network. Perhaps it&#39;s possible to provide an alternative interface
+but the result could be a separate, clunky application few would want to
+use. The cost would be prohibitive given the size of the legacy browser
+user base.</p>
+<h2 id="site-owner-recommendations">Site Owner Recommendations</h2>
+<p>Site owners should appreciate the following fundamentals and constraints
+of the web. <strong>The web is not print!</strong> Your site/app will not look
+identical everywhere. Each device has a different OS, browser, screen
+size, capabilities etc. <strong>Functionality can differ</strong> Your site can work
+for everyone but experiences and facilities will vary. Even something as
+basic as a date entry field can has a diverse range of possibilities
+but, ideally, the core application will remain operable. <strong>Assess your
+project</strong> Be realistic. Is this a content site, a simple app, a
+desktop-like application, a fast-action game etc. Establish a base level
+of browser compatibility. For example, it must work on most two-year-old
+browsers with a screen width of 600 pixels over a fast Wi-Fi connection.
+<strong>Assess your audience</strong> Don&#39;t rely on global browser statistics. Who
+are the primary users? Are they IT novices or highly technical? Is it
+individuals, small companies or government organisations? Do they sit at
+a desk or are they on the move? No application applies to everyone ---
+concentrate on the core users first. Examine the analytics of your
+existing system where possible but appreciate the underlying data. If
+your app doesn&#39;t work in Opera Mini, you&#39;re unlikely to have Opera Mini
+users. Have you blocked a significant proportion of your market?
+<strong>Change happens</strong> It&#39;s amazing that a web page coded twenty years ago
+works today. It won&#39;t necessarily be pretty or usable but browsers
+remain backward compatible. <em>(Mostly. The <code>&lt;blink&gt;</code> tag can stay dead!)</em>
+However, technology evolves. The more complex your site or application,
+the more likely it will require ongoing maintenance.</p>
+<h2 id="web-developer-recommendations">Web Developer Recommendations</h2>
+<p>With a little care it&#39;s possible to support a huge variety of browsers.
+<strong>Embrace the web!</strong> The web is a device-agnostic platform. Content and
+simpler interfaces can work everywhere: a modern laptop, a feature
+phone, a games console, IE6, etc. Learn the basics of progressive
+enhancement. Even if you choose not to adopt it for your full
+application, there will be pockets of functionality where it becomes
+invaluable. <strong>Adopt Defensive Development Techniques</strong> Consider the
+problem before reaching for the nearest pre-written module, library or
+framework. Understand the consequences of that technology before you
+start. Frameworks should provide a browser support list because they
+have been tested in limited number of applications. Learn about browser
+limits and quirks. For example, if you&#39;re considering an SVG chart, be
+aware that it can look odd in IE9 to 11 and fail in IE8 and below. That
+doesn&#39;t mean it&#39;s a binary choice of rejecting SVGs or abandoning IE
+support. There are always compromises which do not incur significant
+development. For example:</p>
+<ul>
+<li>accept SVG rendering is weird but it remains usable</li>
+<li>only show a table of data in IE, or</li>
+<li>provide an SVG download which IE users can open elsewhere.</li>
+</ul>
+<p><strong>Test early and test often</strong> You cannot possibly test every device, but
+developing for a single browser is futile. Continually test your project
+in a variety of applications. Leaving testing to the end will have
+catastrophic consequences. It&#39;s easy for us to blame tools and browser
+inadequacies, but the majority of issues can be rectified during the
+development process if they&#39;re spotted early. That&#39;s not to say
+everything must work identically in every browser every time. Feature
+regressions are inevitable. For example:</p>
+<ul>
+<li>Progressive Web Apps do not work offline on iPhones and iPads ---
+but online operation is fine.</li>
+<li>CSS Grid is not supported in IE --- but float, flexbox or full-width
+block fallbacks should be acceptable.</li>
+<li>The desktop edition of Firefox does not show a calendar for date
+fields --- but users can still enter one.</li>
+</ul>
+<p>Install a selection of browsers on your development PC. Mac and Linux
+users can obtain Microsoft Edge and IE testing tools at
+<a href="https://developer.microsoft.com/en-us/microsoft-edge/">developer.microsoft.com/microsoft-edge/</a>.
+It&#39;s more difficult for Windows and Linux users to test Safari; online
+test services such as <a href="https://www.browserstack.com/">BrowserStack</a> are
+the easiest option. Modern browsers have excellent mobile emulation
+facilities, but use a few real devices to appreciate touch control and
+performance on slower hardware and networks. <strong>Use HTTPS on your end</strong>
+The web is gradually making HTTPS the preferred protocol, and this trend
+is going to continue. Google Chrome is even starting to indicate that
+non-HTTPS sites as insecure, which is a good reason for you to configure
+your site to use HTTPS. Our web hosting partner,
+<a href="https://www.siteground.com/go/article-sp">SiteGround</a>, for example,
+made it easy for their clients to make the move to HTTPS. To do that,
+they automated the installation of Let’s Encrypt SSL certificates for
+all new WordPress accounts, and for existing ones, they made the switch
+to HTTPS possible with just a click.</p>
+<h2 id="you-haven-t-answered-the-question-">You Haven&#39;t Answered the Question!</h2>
+<p>The question <em>&quot;which browsers should you support?&quot;</em> has become too
+restrictive. Presume your answer was just &quot;Chrome&quot;:</p>
+<ul>
+<li><em>which devices and OS is it running on?</em></li>
+<li><em>what range of screen sizes will be supported?</em></li>
+<li><em>which version are you referring to? The latest? Chrome 10 and
+above?</em></li>
+<li><em>what happens when a new version of Chrome is released?</em></li>
+<li><em>what will happen in other browsers when Chrome effectively becomes
+your application&#39;s runtime?</em></li>
+</ul>
+<p>Providing a browser support list has become impractical for
+client-facing projects. Perhaps the best answer is: <em>&quot;we&#39;ll develop your
+project according to presumed demographics then test as in many devices,
+OSes, browsers, and versions as possible according to budget and time
+constraints&quot;</em>. Even then, you&#39;ll miss that aging Blackberry the CEO
+insists on using. Develop for the web --- <em>not browsers</em>.</p>
+</div><div class="chapter"><div class="ch-head">Chapter</div>    <h1 class="chaptertitle"> Are Your WordPress Themes Flexible or Fast?</h1>    <h3 class="author">Maria Antonietta Perna</h3><p><em>This article is part of a series created in partnership with
+<a href="https://www.sitepoint.com/siteground-recommended-65-off">SiteGround</a>.
+Thank you for supporting the partners who make SitePoint possible.</em></p>
+<p><strong>If you&#39;ve developed WordPress themes for mass distribution, you might
+have come across the problem of finding the perfect balance between
+building performant themes and building feature-rich, media-heavy
+products for your customers.</strong></p>
+<p>Let&#39;s look closer into what the tension might be all about and how you
+can find ways to compromise between creating fast-loading themes and
+giving users the flexibility and easy customization options they love
+and expect.</p>
+<h2 id="are-flexibility-and-performance-at-odds-when-coding-wordpress-themes-">Are Flexibility and Performance at Odds When Coding WordPress Themes? </h2>
+<p>I will start by saying that my discussion is not going to be about
+performance in relation to an entire WordPress website, which might
+include a number of different factors like finding a <a href="https://www.siteground.com/wordpress-hosting.htm">great hosting
+provider</a>,
+implementing caching mechanisms, leveraging both back-end and front-end
+techniques, etc.</p>
+<p>Also, the topic is not about the performance of WordPress themes you
+code from scratch either for your own use or for a specific client. In
+these particular cases you tailor your themes to the specific needs of
+yourself or your individual client, which should make performance
+optimizations easy to accommodate.</p>
+<p>Rather, my focus will be on WordPress themes you code for the general
+public, to be distributed on WordPress.org or an online marketplace. The
+scenario is one where you, as the theme developer, have no control over
+how your theme is going to be used and customized.</p>
+<p>But why could coding for performance clash with coding themes for the
+public?</p>
+<p>On the whole, performance requires you to:</p>
+<ul>
+<li>stick to simple designs</li>
+<li>include a limited number of features into your themes (more features
+are likely to require more processing power and resources, all of
+which impacts on theme performance)</li>
+<li>add the minimum number of page templates for a theme to function
+(fewer templates require fewer resources, which is good for
+performance)</li>
+<li>perform as few database queries as possible (querying the database
+takes time)</li>
+<li>limit the number and size of images and other media, which are
+notoriously heavy files</li>
+<li>minimize the number of HTTP requests (each round trip to the server
+and back takes some time with obvious negative consequences on
+performance).</li>
+</ul>
+<p>On the other hand, a considerable number of your theme&#39;s users are
+likely more entrepreneurial than tech minded. Therefore, what they might
+be looking for is a product they can turn into pretty much anything
+without so much as one line of code, with lots of functionality out of
+the box, breathtaking photo and video assets, super delightful parallax
+and other animation effects, and such like.</p>
+<p>To give theme users all the flexibility they would like could come with
+some performance costs. But let&#39;s go into a few specific points that
+illustrate how this can happen and how you can find some middle ground
+for a successful outcome.</p>
+<h3 id="themes-are-for-appearance-plugins-for-functionality">Themes are for appearance, plugins for functionality</h3>
+<p>Although a number of reputable WordPress experts have been throwing some
+well-argued <a href="https://wptavern.com/envato-continues-to-rake-in-the-cash-from-wordpress-themes-packaged-as-complete-website-solutions">criticisms against the so-called <em>kitchen sink
+themes</em></a>
+--- that is, those multipurpose themes that can become anything to
+anybody by offering any functionality under the sun --- the demand for
+them is still going strong.</p>
+<p>Themes that give users the ability to easily add social media buttons,
+SEO features, contact forms, price tables, etc., while attracting a lot
+of attention from buyers, don&#39;t come without some serious drawbacks.</p>
+<p>In particular, this kind of WordPress theme comes tightly coupled with
+plugins specifically built for it, or even integrated directly into the
+theme. This practice is widely frowned upon for the following reasons:</p>
+<ul>
+<li>Some of the plugins that come bundled with a theme can have
+vulnerabilities that put theme users at risk. If the theme doesn&#39;t
+come with specific plugins installed it&#39;s less open to such risks</li>
+<li><p>A super important drawback of tight integration between themes and
+plugins is what <a href="https://www.engagewp.com/why-i-no-longer-use-themeforest/">Ren Ventura identifies as <em>theme
+lock</em></a>.
+Here&#39;s his explanation of this problem:</p>
+<blockquote>
+<p>Theme lock occurs when a WordPress user cannot change his or her
+theme without gutting most of the site’s functionality. Once the
+theme is deactivated, it deactivates things like shortcodes and
+custom post types that were registered by the theme. Without these
+features that the user has heavily incorporated into the site,
+things fall apart.</p>
+</blockquote>
+<p>As a consequence, when you change theme, a lot of the stuff you
+thought it was part of your website content disappears with the old
+theme. For instance, if your theme offered the ability to add
+testimonials to your website, once you change theme all the content
+related to your testimonials will be gone. Not nice.</p>
+</li>
+<li><p>And of course, bloat and hence performace costs. Let&#39;s say you don&#39;t
+need a testimonials section on your website. Yet, all the code that
+makes that functionality work in the theme is still there: it takes
+up space on your server, which ultimately costs money.</p>
+</li>
+</ul>
+<p>A great maxim the Theme Review Team (i.e., the volunteers who review
+themes submitted on the WordPress.org themes repo) rightly enforces is:
+<strong>keep functionality separate from appearance. Plugins deal with
+functionality, themes with appearance.</strong> Getting rid of all the
+complication will improve theme performance and at the same time make it
+easier for users to install and configure WordPress themes.</p>
+<h3 id="your-users-don-t-need-tons-of-theme-options-but-they-might-not-know-this-">Your users don&#39;t need tons of theme options (but they might not know this)</h3>
+<p>Until not long ago, WordPress themes included rather complicated theme
+option pages to enable users to make all sorts of modifications with a
+button click.</p>
+<p>These days, thanks to a momentous <a href="https://make.wordpress.org/themes/2015/04/22/details-on-the-new-theme-settings-customizer-guideline/">decision taken by the Theme Review
+Team on
+WordPress.org</a>
+in 2015, most themes offer theme options using the <a href="https://developer.wordpress.org/themes/customize-api/">WordPress
+Customizer</a>,
+which makes possible live previewing the changes as they&#39;re being made
+by users.</p>
+<p>Unfortunately, the kitchen sink mentality that ruled the old theme
+option pages has started to migrate to the Customizer, which you can now
+see as also starting to get filled up with all sorts of settings.</p>
+<p>Although non technical customers love theme options to make changes to
+their themes, sometimes too many options available bring more problems
+than they seemingly solve:</p>
+<ul>
+<li>Too many options can paralyze users who are not too familiar with
+core principles of website design.</li>
+<li>It can take more time than expected to set up and configure a theme.</li>
+<li>It&#39;s easy to make mistakes like choosing the wrong colors, making
+text unreadable, etc.</li>
+<li>Users might add too many fonts to their themes, thereby spoiling the
+design and slowing down the website.</li>
+<li>More options means adding more functionality to the theme, thereby
+impacting on its performance.</li>
+</ul>
+<p>Although your customers might not accept this at first, you are the
+theme designer, therefore you should be the one who is best placed to
+make the important design decisions for your theme.</p>
+<p>A well-calibrated number of theme options should be sufficient to let
+your customers make some targeted and carefully predefined (by you)
+modifications to personalize the theme and make it their own.</p>
+<h3 id="implement-smart-graphics-optimization-techniques">Implement smart graphics optimization techniques</h3>
+<p>Images are likely to put the heaviest weight on theme performance
+compared to template files, scripts and styles. Just run any theme
+through <a href="https://tools.pingdom.com/">Pingdom&#39;s Speed Test tool</a> to
+verify this.</p>
+<p>However, a generous use of full-screen, bold images is hardly
+surprising. Images add huge aesthetic value to themes and customers are
+drawn to a theme largely on the basis of its visual impact.</p>
+<p>Although it&#39;s hard to resist the power of great graphics, the guidelines
+below can help you code faster themes without necessarily sacrificing
+aesthetics (too much):</p>
+<ul>
+<li>Using as few images as possible is always a good guiding principle.</li>
+<li>Take advantage of CSS <a href="https://www.sitepoint.com/close-up-css-mix-blend-mode-property/">blend
+modes</a>,
+<a href="https://www.sitepoint.com/css-filter-effects-blur-grayscale-brightness-and-more-in-css/">filters</a>,
+and semi-transparent overlays on low-resolution images to mask
+pixelation and enhance their visual appearance. You can also try to
+experiment with CSS <a href="https://codepen.io/helmsmith/pen/xbBEWy">blend
+modes</a> and <a href="https://codepen.io/commander-clifford/pen/PZJYBo">filters on HTML
+elements and text</a>
+rather than images to create stunning visual effects wherever
+possible.</li>
+<li>Make sure the images are of the <a href="https://www.sitepoint.com/what-is-the-right-image-format-for-your-website/">appropriate
+format</a>
+and optimized for web.</li>
+<li>Where appropriate, use <a href="https://www.sitepoint.com/css-sprites-sass-compass/">CSS
+sprites</a> to
+combine your images into a larger image and therefore reduce HTTP
+requests.</li>
+<li>Try implementing <a href="https://www.sitepoint.com/five-techniques-lazy-load-images-website-performance/">lazy loading for
+images</a>.
+Doing so will achieve faster page load, and if users don&#39;t scroll to
+the location of the <code>&lt;img&gt;</code> tag, the image won&#39;t need to be
+downloaded at all. To lazy load images in WordPress you can choose
+from a number of good plugins, such as <a href="https://wordpress.org/plugins/lazy-load/">Lazy
+Load</a>, <a href="https://wordpress.org/plugins/a3-lazy-load/">a3 Lazy
+Load</a> and <a href="https://wordpress.org/plugins/rocket-lazy-load/">Rocket Lazy
+Load</a>.</li>
+</ul>
+<h3 id="make-customer-support-and-education-your-pillars-of-strength">Make customer support and education your pillars of strength</h3>
+<p>Instead of feeding your customers lots of confusing and time-consuming
+theme options, try offering full support and education on how to use
+your themes, image optimization, WordPress 101, etc.</p>
+<p>You can do so using:</p>
+<ul>
+<li>blog posts</li>
+<li>downloadable guides</li>
+<li>video tutorials</li>
+<li>FAQs on your website</li>
+<li>a ticket system for more specific issues that might arise while
+using your themes.</li>
+</ul>
+<p>Sharing the basic know-how about your products and the platform you
+build for is a great way of making your themes easy to use for your
+customers and contributes to generate a high level of trust, which is at
+the core of a healthy and successful business.</p>
+<h2 id="sometimes-flexibility-wins-over-performance">Sometimes Flexibility Wins over Performance</h2>
+<p>There may be a limited number of cases when you don&#39;t think compromising
+some flexibility for the sake of a small performance gain is a good
+idea.</p>
+<p>A couple of examples come to mind.</p>
+<h3 id="when-writing-dry-code-could-make-your-customers-unhappy">When writing DRY code could make your customers unhappy</h3>
+<p>The first example comes from <a href="https://twitter.com/tommcfarlin">Tom
+McFarlin</a>, a well-known WordPress theme
+developer and author.</p>
+<p>In his blog he explains why he decided to include a long list of
+<a href="https://developer.wordpress.org/themes/template-files-section/partial-and-miscellaneous-template-files/">WordPress template
+files</a>,
+thereby going against the
+<a href="https://en.wikipedia.org/wiki/Don&#39;t_repeat_yourself">DRY</a> coding
+principle (and also impacting negatively on performance to some extent)
+while developing his theme <em>Meyer</em>.</p>
+<p><em>Meyer</em> was targeted at bloggers and digital publishers without much
+WordPress technical knowledge. Knowing that lack of coding experience
+would not have stopped this audience from tinkering with his theme, Tom
+McFarlin thought of a way to make things easier for them. He provided
+his customers with a generous number of template files they could easily
+copy and paste into a <a href="https://www.sitepoint.com/watch-create-your-first-wordpress-child-theme-quick-fast/">WordPress child
+theme</a>
+for customization without hacking the original theme.</p>
+<p>McFarlin writes:</p>
+<blockquote>
+<p>If the templates are defined in the base theme — rather than, say, a
+bunch of developer-ish conditionals — users are going to have an
+easier time basing their templates off of something that already
+exists …</p>
+<p>So if I had to sum this up in some concise way, I’d say that I — like
+many developers — want to keep my code as DRY as possible, but there’s
+a tradeoff that comes with doing so in the context of WordPress theme
+development.</p>
+<p>And I don’t think that staying DRY is the best way to go about it if
+you’re going to be marketing a product to a wide audience.</p>
+<p><a href="https://tommcfarlin.com/wordpress-theme-development-thinking-of-the-blogger/">Know Your Customer — the
+Blogger</a>.</p>
+</blockquote>
+<h3 id="static-source-code-is-better-for-performance-but-don-t-use-it-in-your-public-themes">Static source code is better for performance but don&#39;t use it in your public themes</h3>
+<p>My second example of when not to compromise flexibility for some
+performance gain in your WordPress themes is based on performance advice
+from the Codex.</p>
+<p>You&#39;ll find some great performance tips there, but there&#39;s one I
+wouldn&#39;t recommend you use, at least if you&#39;re going to release your
+theme to the general public.</p>
+<p>It goes like this:</p>
+<blockquote>
+<ul>
+<li><p>Can static values be hardcoded into your themes? This will mean
+you have to edit code every time you make changes, but for
+generally static areas, this can be a good trade off.</p>
+<ul>
+<li><p>For example, your site charset, site title, and so on.</p>
+</li>
+<li><p>Can you hardcode menus that rarely change? Avoiding functions
+like <code>wp_list_pages()</code> for example.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://codex.wordpress.org/WordPress_Optimization/WordPress_Performance">Codex — WordPress Optimization/WordPress
+Performance</a></p>
+</blockquote>
+<p>Avoiding unnecessary calls to the database and optimizing your SQL
+queries are excellent practices every theme should follow.</p>
+<p>If your theme runs a bit slow, try looking for problematic database
+queries that take too long to execute. You can use a plugin like <a href="https://wordpress.org/plugins/query-monitor/">Query
+Monitor</a> in your
+development environment to help you with this task.</p>
+<p>However, hardcoding bits of information like site title, menu items,
+etc., is out of the question. Even if your users never change that info
+once it&#39;s set, they need to set it at least once and they rightly expect
+to do so using WordPress dynamic capabilities.</p>
+<p>Furthermore, even if your theme&#39;s users were prepared to dig into the
+source code, they would have to hack the theme files to add the required
+data. This is almost never a good idea, not least because all changes
+would be overwritten on the next theme update.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Coding WordPress themes for the general public may involve catering for
+diverse and sometimes incompatible needs: those of your customer base,
+of web performance, hence the needs of visitors of those websites that
+use your themes, and even your own needs as WordPress theme designer and
+creator.</p>
+<p>In this article I&#39;ve expressed my views on how to address the dilemma
+WordPress theme developers might face between the demands of flexibility
+and those of performance.</p>
+</div></body>
+<script src="../assets/js/book.js"></script>
+<script src="../assets/js/prism.js"></script>
+</html>

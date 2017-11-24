@@ -1,0 +1,251 @@
+<div class="chapter">
+    <div class="ch-head">Chapter</div>
+    <h1 class="chaptertitle"> Are Your WordPress Themes Flexible or Fast?</h1>
+    <h3 class="author">Maria Antonietta Perna</h3>
+    <p>
+        <em>This article is part of a series created in partnership with
+            <a href="https://www.sitepoint.com/siteground-recommended-65-off">SiteGround</a>. Thank you for supporting the partners who make SitePoint possible.</em>
+    </p>
+    <p>
+        <strong>If you&#39;ve developed WordPress themes for mass distribution, you might have come across the problem of finding
+            the perfect balance between building performant themes and building feature-rich, media-heavy products for your
+            customers.</strong>
+    </p>
+    <p>Let&#39;s look closer into what the tension might be all about and how you can find ways to compromise between creating
+        fast-loading themes and giving users the flexibility and easy customization options they love and expect.</p>
+    <h2 id="are-flexibility-and-performance-at-odds-when-coding-wordpress-themes-">Are Flexibility and Performance at Odds When Coding WordPress Themes? </h2>
+    <p>I will start by saying that my discussion is not going to be about performance in relation to an entire WordPress website,
+        which might include a number of different factors like finding a
+        <a href="https://www.siteground.com/wordpress-hosting.htm">great hosting provider
+        </a>, implementing caching mechanisms, leveraging both back-end and front-end techniques, etc.</p>
+    <p>Also, the topic is not about the performance of WordPress themes you code from scratch either for your own use or for
+        a specific client. In these particular cases you tailor your themes to the specific needs of yourself or your individual
+        client, which should make performance optimizations easy to accommodate.</p>
+    <p>Rather, my focus will be on WordPress themes you code for the general public, to be distributed on WordPress.org or an
+        online marketplace. The scenario is one where you, as the theme developer, have no control over how your theme is
+        going to be used and customized.</p>
+    <p>But why could coding for performance clash with coding themes for the public?
+    </p>
+    <p>On the whole, performance requires you to:</p>
+    <ul>
+        <li>stick to simple designs</li>
+        <li>include a limited number of features into your themes (more features are likely to require more processing power
+            and resources, all of which impacts on theme performance)</li>
+        <li>add the minimum number of page templates for a theme to function (fewer templates require fewer resources, which
+            is good for performance)
+        </li>
+        <li>perform as few database queries as possible (querying the database takes time)</li>
+        <li>limit the number and size of images and other media, which are notoriously heavy files</li>
+        <li>minimize the number of HTTP requests (each round trip to the server and back takes some time with obvious negative
+            consequences on performance).
+        </li>
+    </ul>
+    <p>On the other hand, a considerable number of your theme&#39;s users are likely more entrepreneurial than tech minded.
+        Therefore, what they might be looking for is a product they can turn into pretty much anything without so much as
+        one line of code, with lots of functionality out of the box, breathtaking photo and video assets, super delightful
+        parallax and other animation effects, and such like.</p>
+    <p>To give theme users all the flexibility they would like could come with some performance costs. But let&#39;s go into
+        a few specific points that illustrate how this can happen and how you can find some middle ground for a successful
+        outcome.</p>
+    <h3 id="themes-are-for-appearance-plugins-for-functionality">Themes are for appearance, plugins for functionality</h3>
+    <p>Although a number of reputable WordPress experts have been throwing some well-argued
+        <a href="https://wptavern.com/envato-continues-to-rake-in-the-cash-from-wordpress-themes-packaged-as-complete-website-solutions">criticisms against the so-called
+            <em>kitchen sink themes
+            </em>
+        </a>
+        --- that is, those multipurpose themes that can become anything to anybody by offering any functionality under the sun ---
+        the demand for them is still going strong.</p>
+    <p>Themes that give users the ability to easily add social media buttons, SEO features, contact forms, price tables, etc.,
+        while attracting a lot of attention from buyers, don&#39;t come without some serious drawbacks.</p>
+    <p>In particular, this kind of WordPress theme comes tightly coupled with plugins specifically built for it, or even integrated
+        directly into the theme. This practice is widely frowned upon for the following reasons:</p>
+    <ul>
+        <li>Some of the plugins that come bundled with a theme can have vulnerabilities that put theme users at risk. If the
+            theme doesn&#39;t come with specific plugins installed it&#39;s less open to such risks</li>
+        <li>
+            <p>A super important drawback of tight integration between themes and plugins is what
+                <a href="https://www.engagewp.com/why-i-no-longer-use-themeforest/">Ren Ventura identifies as
+                    <em>theme lock
+                    </em>
+                </a>. Here&#39;s his explanation of this problem:</p>
+            <blockquote>
+                <p>Theme lock occurs when a WordPress user cannot change his or her theme without gutting most of the site’s
+                    functionality. Once the theme is deactivated, it deactivates things like shortcodes and custom post types
+                    that were registered by the theme. Without these features that the user has heavily incorporated into
+                    the site, things fall apart.</p>
+            </blockquote>
+            <p>As a consequence, when you change theme, a lot of the stuff you thought it was part of your website content disappears
+                with the old theme. For instance, if your theme offered the ability to add testimonials to your website,
+                once you change theme all the content related to your testimonials will be gone. Not nice.</p>
+        </li>
+        <li>
+            <p>And of course, bloat and hence performace costs. Let&#39;s say you don&#39;t need a testimonials section on your
+                website. Yet, all the code that makes that functionality work in the theme is still there: it takes up space
+                on your server, which ultimately costs money.</p>
+        </li>
+    </ul>
+    <p>A great maxim the Theme Review Team (i.e., the volunteers who review themes submitted on the WordPress.org themes repo)
+        rightly enforces is:
+        <strong>keep functionality separate from appearance. Plugins deal with functionality, themes with appearance.</strong> Getting
+        rid of all the complication will improve theme performance and at the same time make it easier for users to install
+        and configure WordPress themes.</p>
+    <h3 id="your-users-don-t-need-tons-of-theme-options-but-they-might-not-know-this-">Your users don&#39;t need tons of theme options (but they might not know this)</h3>
+    <p>Until not long ago, WordPress themes included rather complicated theme option pages to enable users to make all sorts
+        of modifications with a button click.</p>
+    <p>These days, thanks to a momentous
+        <a href="https://make.wordpress.org/themes/2015/04/22/details-on-the-new-theme-settings-customizer-guideline/">decision taken by the Theme Review Team on WordPress.org
+        </a>
+        in 2015, most themes offer theme options using the
+        <a href="https://developer.wordpress.org/themes/customize-api/">WordPress Customizer
+        </a>, which makes possible live previewing the changes as they&#39;re being made by users.</p>
+    <p>Unfortunately, the kitchen sink mentality that ruled the old theme option pages has started to migrate to the Customizer,
+        which you can now see as also starting to get filled up with all sorts of settings.</p>
+    <p>Although non technical customers love theme options to make changes to their themes, sometimes too many options available
+        bring more problems than they seemingly solve:</p>
+    <ul>
+        <li>Too many options can paralyze users who are not too familiar with core principles of website design.</li>
+        <li>It can take more time than expected to set up and configure a theme.</li>
+        <li>It&#39;s easy to make mistakes like choosing the wrong colors, making text unreadable, etc.</li>
+        <li>Users might add too many fonts to their themes, thereby spoiling the design and slowing down the website.</li>
+        <li>More options means adding more functionality to the theme, thereby impacting on its performance.</li>
+    </ul>
+    <p>Although your customers might not accept this at first, you are the theme designer, therefore you should be the one who
+        is best placed to make the important design decisions for your theme.</p>
+    <p>A well-calibrated number of theme options should be sufficient to let your customers make some targeted and carefully
+        predefined (by you) modifications to personalize the theme and make it their own.</p>
+    <h3 id="implement-smart-graphics-optimization-techniques">Implement smart graphics optimization techniques</h3>
+    <p>Images are likely to put the heaviest weight on theme performance compared to template files, scripts and styles. Just
+        run any theme through
+        <a href="https://tools.pingdom.com/">Pingdom&#39;s Speed Test tool</a> to verify this.</p>
+    <p>However, a generous use of full-screen, bold images is hardly surprising. Images add huge aesthetic value to themes and
+        customers are drawn to a theme largely on the basis of its visual impact.</p>
+    <p>Although it&#39;s hard to resist the power of great graphics, the guidelines below can help you code faster themes without
+        necessarily sacrificing aesthetics (too much):</p>
+    <ul>
+        <li>Using as few images as possible is always a good guiding principle.</li>
+        <li>Take advantage of CSS
+            <a href="https://www.sitepoint.com/close-up-css-mix-blend-mode-property/">blend modes
+            </a>,
+            <a href="https://www.sitepoint.com/css-filter-effects-blur-grayscale-brightness-and-more-in-css/">filters</a>, and semi-transparent overlays on low-resolution images to mask pixelation and enhance their visual
+            appearance. You can also try to experiment with CSS
+            <a href="https://codepen.io/helmsmith/pen/xbBEWy">blend modes
+            </a> and
+            <a href="https://codepen.io/commander-clifford/pen/PZJYBo">filters on HTML elements and text</a>
+            rather than images to create stunning visual effects wherever possible.
+        </li>
+        <li>Make sure the images are of the
+            <a href="https://www.sitepoint.com/what-is-the-right-image-format-for-your-website/">appropriate format
+            </a>
+            and optimized for web.</li>
+        <li>Where appropriate, use
+            <a href="https://www.sitepoint.com/css-sprites-sass-compass/">CSS sprites
+            </a> to combine your images into a larger image and therefore reduce HTTP requests.
+        </li>
+        <li>Try implementing
+            <a href="https://www.sitepoint.com/five-techniques-lazy-load-images-website-performance/">lazy loading for images
+            </a>. Doing so will achieve faster page load, and if users don&#39;t scroll to the location of the
+            <code>&lt;img&gt;</code> tag, the image won&#39;t need to be downloaded at all. To lazy load images in WordPress you
+            can choose from a number of good plugins, such as
+            <a href="https://wordpress.org/plugins/lazy-load/">Lazy Load
+            </a>,
+            <a href="https://wordpress.org/plugins/a3-lazy-load/">a3 Lazy Load
+            </a> and
+            <a href="https://wordpress.org/plugins/rocket-lazy-load/">Rocket Lazy Load
+            </a>.</li>
+    </ul>
+    <h3 id="make-customer-support-and-education-your-pillars-of-strength">Make customer support and education your pillars of strength</h3>
+    <p>Instead of feeding your customers lots of confusing and time-consuming theme options, try offering full support and education
+        on how to use your themes, image optimization, WordPress 101, etc.</p>
+    <p>You can do so using:</p>
+    <ul>
+        <li>blog posts</li>
+        <li>downloadable guides</li>
+        <li>video tutorials</li>
+        <li>FAQs on your website</li>
+        <li>a ticket system for more specific issues that might arise while using your themes.</li>
+    </ul>
+    <p>Sharing the basic know-how about your products and the platform you build for is a great way of making your themes easy
+        to use for your customers and contributes to generate a high level of trust, which is at the core of a healthy and
+        successful business.</p>
+    <h2 id="sometimes-flexibility-wins-over-performance">Sometimes Flexibility Wins over Performance</h2>
+    <p>There may be a limited number of cases when you don&#39;t think compromising some flexibility for the sake of a small
+        performance gain is a good idea.
+    </p>
+    <p>A couple of examples come to mind.</p>
+    <h3 id="when-writing-dry-code-could-make-your-customers-unhappy">When writing DRY code could make your customers unhappy</h3>
+    <p>The first example comes from
+        <a href="https://twitter.com/tommcfarlin">Tom McFarlin
+        </a>, a well-known WordPress theme developer and author.</p>
+    <p>In his blog he explains why he decided to include a long list of
+        <a href="https://developer.wordpress.org/themes/template-files-section/partial-and-miscellaneous-template-files/">WordPress template files
+        </a>, thereby going against the
+        <a href="https://en.wikipedia.org/wiki/Don&#39;t_repeat_yourself">DRY</a> coding principle (and also impacting negatively on performance to some extent) while developing his theme
+        <em>Meyer</em>.</p>
+    <p>
+        <em>Meyer</em> was targeted at bloggers and digital publishers without much WordPress technical knowledge. Knowing that
+        lack of coding experience would not have stopped this audience from tinkering with his theme, Tom McFarlin thought
+        of a way to make things easier for them. He provided his customers with a generous number of template files they
+        could easily copy and paste into a
+        <a href="https://www.sitepoint.com/watch-create-your-first-wordpress-child-theme-quick-fast/">WordPress child theme
+        </a>
+        for customization without hacking the original theme.</p>
+    <p>McFarlin writes:</p>
+    <blockquote>
+        <p>If the templates are defined in the base theme — rather than, say, a bunch of developer-ish conditionals — users
+            are going to have an easier time basing their templates off of something that already exists …</p>
+        <p>So if I had to sum this up in some concise way, I’d say that I — like many developers — want to keep my code as DRY
+            as possible, but there’s a tradeoff that comes with doing so in the context of WordPress theme development.
+        </p>
+        <p>And I don’t think that staying DRY is the best way to go about it if you’re going to be marketing a product to a
+            wide audience.</p>
+        <p>
+            <a href="https://tommcfarlin.com/wordpress-theme-development-thinking-of-the-blogger/">Know Your Customer — the Blogger
+            </a>.</p>
+    </blockquote>
+    <h3 id="static-source-code-is-better-for-performance-but-don-t-use-it-in-your-public-themes">Static source code is better for performance but don&#39;t use it in your public themes</h3>
+    <p>My second example of when not to compromise flexibility for some performance gain in your WordPress themes is based on
+        performance advice from the Codex.</p>
+    <p>You&#39;ll find some great performance tips there, but there&#39;s one I wouldn&#39;t recommend you use, at least if
+        you&#39;re going to release your theme to the general public.</p>
+    <p>It goes like this:</p>
+    <blockquote>
+        <ul>
+            <li>
+                <p>Can static values be hardcoded into your themes? This will mean you have to edit code every time you make
+                    changes, but for generally static areas, this can be a good trade off.</p>
+                <ul>
+                    <li>
+                        <p>For example, your site charset, site title, and so on.</p>
+                    </li>
+                    <li>
+                        <p>Can you hardcode menus that rarely change? Avoiding functions like
+                            <code>wp_list_pages()</code> for example.</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            <a href="https://codex.wordpress.org/WordPress_Optimization/WordPress_Performance">Codex — WordPress Optimization/WordPress Performance
+            </a>
+        </p>
+    </blockquote>
+    <p>Avoiding unnecessary calls to the database and optimizing your SQL queries are excellent practices every theme should
+        follow.</p>
+    <p>If your theme runs a bit slow, try looking for problematic database queries that take too long to execute. You can use
+        a plugin like
+        <a href="https://wordpress.org/plugins/query-monitor/">Query Monitor
+        </a> in your development environment to help you with this task.</p>
+    <p>However, hardcoding bits of information like site title, menu items, etc., is out of the question. Even if your users
+        never change that info once it&#39;s set, they need to set it at least once and they rightly expect to do so using
+        WordPress dynamic capabilities.</p>
+    <p>Furthermore, even if your theme&#39;s users were prepared to dig into the source code, they would have to hack the theme
+        files to add the required data. This is almost never a good idea, not least because all changes would be overwritten
+        on the next theme update.</p>
+    <h2 id="conclusion">Conclusion</h2>
+    <p>Coding WordPress themes for the general public may involve catering for diverse and sometimes incompatible needs: those
+        of your customer base, of web performance, hence the needs of visitors of those websites that use your themes, and
+        even your own needs as WordPress theme designer and creator.
+    </p>
+    <p>In this article I&#39;ve expressed my views on how to address the dilemma WordPress theme developers might face between
+        the demands of flexibility and those of performance.</p>
+</div>

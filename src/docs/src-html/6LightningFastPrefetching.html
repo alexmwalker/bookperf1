@@ -1,0 +1,121 @@
+<h1>Lightning Fast Websites with Prefetching</h1>
+<h3>Maria Antonietta Perna</h3>
+
+<p><em>This article is part of a series created in partnership with <a href="https://www.siteground.com/go/article-sp" rel="nofollow">SiteGround</a>. Thank you for supporting the partners who make SitePoint possible.</em></p>
+
+<p><strong>In this article, I'll discuss prefetching, what it is, and how developers can use it to wow visitors with high-performance websites.</strong></p>
+
+<h2 id="whatisprefetching">What Is Prefetching?</h2>
+
+<p>Although optimizing a website for initial page load is great, for the highly interactive websites users expect today, this might not be enough.</p>
+
+<p>What if browsers knew which link users were about to click, or which page they were about to visit next, so that content could automagically appear on their screen at the speed of light?</p>
+
+<p>Well, browsers <em>can</em> do that now. In fact, some major browsers are smart enough to make these kinds of guesses based on visitors' browsing patterns, document markup and structure, the user's device, connectivity, etc. Therefore, browsers already try to anticipate the resources needed to build the page visitors are likely to access, get those resources ready and display the page at warp speed when users request it. However, developers can use their knowledge of the website or web application to help browsers single out those crucial resources more accurately.</p>
+
+<p>This is what prefetching is, a hint for browsers to foresee users' every browsing wish and make it come true in a snap.</p>
+
+<p>You can find prefetching in the <strong><a href="https://w3c.github.io/resource-hints/">Resource Hints</a></strong> specification led by Ilya Grigorik.</p>
+
+<p>In what follows, I'm going to discuss:</p>
+
+<ul>
+<li>DNS-prefetching</li>
+<li>Link/Resource prefetching</li>
+<li>Prerendering (Page prefetching)</li>
+</ul>
+
+<h2 id="dnsprefetching">DNS-Prefetching</h2>
+
+<p>The internet is a network of computer-readable <a href="http://whatismyipaddress.com/ip-address">IP addresses</a> (e.g., 87.87.87.87) that are referenced by human-readable hostnames (e.g., yoursite.com). DNS is the protocol that converts hostnames into IP addresses.</p>
+
+<p>Each time the browser makes an HTTP request for a resource on a different domain, it can spend a few milliseconds to resolve the domain to the associated IP address.</p>
+
+<p>If a website has a Twitter or Facebook widget, Google Analytics, and perhaps one or two custom web fonts, then it must have links to other domains. This makes DNS lookups unavoidable.</p>
+
+<p>DNS prefetching helps to decrease waiting time for visitors because the browser performs DNS lookups before it sends a request for resources located on other domains.</p>
+
+<p>So, let's say developers know a website will make a request to somewidget.example.com. They can drop a hint for the browser suggesting it to go ahead and prefetch that hostname's DNS by adding a <code>rel</code> attribute to the link with the value of <code>dns-prefetch</code>, like this:</p>
+
+[code language="html"]
+&lt;link rel="dns-prefetch" href="//somewidget.example.com"&gt;
+[/code]
+
+<p>Now, when the request to somewidget.example.com takes place, the browser has already performed the DNS lookup ahead of time and users get the results delivered a bit sooner.</p>
+
+<p><a href="http://caniuse.com/#search=dns-prefetch">Browser support for DNS-prefetch</a> at this time is present in all major desktop browsers. When support for DNS-prefetching is lacking, browsers simply retrieve resources in the usual way. No big deal.</p>
+
+<p>What if the browser never requests the DNS-prefetched resource? Thankfully, DNS-prefetching is not a costly operation, since it doesn't send more than just a few hundred bytes over the network. Once again, no harm done.</p>
+
+<h2 id="linkprefetching">Link Prefetching</h2>
+
+<p>According to the <a href="https://w3c.github.io/resource-hints/#prefetch">spec</a>, link prefetching …</p>
+
+<blockquote>
+<p>is used to identify a resource that might be required by the next navigation, and that the user agent SHOULD fetch, such that the user agent can deliver a faster response once the resource is requested in the future.</p>
+</blockquote>
+
+<p>In other words, if developers have grounds to assume users are likely to visit a specific web page and know the browser needs some critical resources to deliver it, they can use the <code>prefetch</code> directive. This points the browser towards the resources it should fetch before users actually navigate to that page.</p>
+
+<p>Keep in mind that prefetching only works with cacheable resources, such as JavaScript, images and so on. Here's what the code looks like:</p>
+
+[code language="html"]
+&lt;link rel="prefetch" href="//example.com/future-image.jpg"&gt;
+[/code]
+
+<p>The browser now knows that the <code>future-image.jpg</code> image is going to be needed soon, so it can prefetch it and store it locally in the cache. At that point, because the browser will have already done the time-consuming work of downloading the resource in the background, the benefit of this technique consists in super-fast rendering as soon as users click to access the relevant page requiring <code>future-image.jpg</code>.</p>
+
+<p>Link prefetching is great at creating the perception of a fast-loading website, but it's a much more expensive operation than DNS-prefetching. If users never access the page which needs the prefetched asset, the browser will have downloaded unnecessary data and clogged up its cache.</p>
+
+<p>At the time of writing, link prefetching is <a href="http://caniuse.com/#search=prefetch">supported by the latest versions of Chrome, Firefox, IE/Edge and Opera</a>. Non-supporting browsers will simply ignore the hint.</p>
+
+<h2 id="pageprefetchingprerendering">Page Prefetching/Prerendering</h2>
+
+<p>Implementing page prefetching or prerendering is just a matter of adding the <code>prerender</code> directive inside a link's <code>rel</code> attribute, like this:</p>
+
+[code language="html"]
+&lt;link rel="prerender" href="//example.com/future-page.html"&gt;
+[/code]
+
+<p>Prerendering goes all the way and literally creates an invisible version of the entire page users are likely to go to next, including applying CSS and executing JavaScript. As soon as users click on the relevant link, the ghost page instantly materializes before their eyes, replacing the old content.</p>
+
+<p>If link prefetching can be an expensive operation, prerendering is even more so. In this case, browsers download an entire web page and all its resources on the basis of an expectation that users will visit that page, which ultimately may or may not happen.</p>
+
+<p>At this time, prerendering is <a href="http://caniuse.com/#search=prerender">supported in IE/Edge, Chrome and Opera</a>.</p>
+
+<h2 id="usecasesforlinkprefetchingandprerendering">Use Cases for Link Prefetching and Prerendering</h2>
+
+<p>Since both link prefetching and (to a greater extent) prerendering don't come cheap, having a definite idea of when it's suitable to implement them on a web page is important.</p>
+
+<p>Devs who plan on using resource hints should do so when they have solid grounds for assuming which resources to prefetch or prerender based on the website's content, users' behavior, analytics, etc.</p>
+
+<p>The Resource Hints spec indicates a number of <a href="https://w3c.github.io/resource-hints/#use-cases">use cases</a> where link prefetching could benefit user experience:</p>
+
+<ul>
+<li>Search results &mdash; It's reasonable to assume users are interested in those results, therefore it's likely they're going to click the links leading to the content they're after.</li>
+<li>Paginated content &mdash; Once users are reading the first page of a multi-page article, it's not too far-fetched to assume they're going to click the link that lands them on the next page.</li>
+<li>Image galleries &mdash; Google devs use prefetching on Picasa Web Albums. If users are viewing a photo, developers are justified in guessing that the next photo is also going to be accessed, so they instruct the browser to download it as soon as possible.</li>
+</ul>
+
+<p>Similarly, Santiago Valdarrama offers some <a href="https://alistapart.com/article/one-step-ahead-improving-performance-with-prebrowsing">helpful tips</a> on when developers could reasonably consider implementing prerendering on a website:</p>
+
+<blockquote>
+<p>When deciding whether to prerender entire pages ahead of time, consider that Google prerenders the top results on its search page, and Chrome prerenders pages based on the historical navigation patterns of users. Using the same principle, you can detect common usage patterns and prerender target pages accordingly. You can also use it, just like resource prefetching, on questionnaires or surveys where you know users will complete the workflow in a particular order.</p>
+</blockquote>
+
+<h2 id="resources">Resources</h2>
+
+<p>If you'd like to dig deeper, the following resources are a must-read:</p>
+
+<ul>
+<li><a href="https://w3c.github.io/resource-hints/">Resource Hints Specification</a></li>
+<li><a href="https://www.sitepoint.com/web-performance-tricks-beyond-basics/">Web Performance Tricks &mdash; Beyond the Basics</a></li>
+<li><a href="https://developers.google.com/speed/articles/prefetching">Prefetching resources</a></li>
+<li><a href="https://css-tricks.com/prefetching-preloading-prebrowsing/">Prefetching, preloading, prebrowsing</a></li>
+<li><a href="https://alistapart.com/article/one-step-ahead-improving-performance-with-prebrowsing">One Step Ahead: Improving Performance with Prebrowsing</a></li>
+<li><a href="https://csswizardry.com/2013/01/front-end-performance-for-web-designers-and-front-end-developers/">Front-end performance for web designers and front-end developers</a></li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>DNS-prefetching, link prefetching and prerendering are powerful optimization techniques. If <strong>implemented responsibly</strong>, on the basis of the knowledge developers have of web content and user behavior, prefetching can considerably improve user experience.</p>

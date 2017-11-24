@@ -1,0 +1,247 @@
+<div class="chapter">
+  <div class="ch-head">Chapter</div>
+  <h1 class="chaptertitle"> JavaScript Performance Optimization Tips: An Overview</h1>
+  <h3 class="author">Ivan Čurić</h3>
+  <p>In this chapter, there’s lots of stuff to cover across a wide and wildly changing landscape. It’s also a topic that covers
+    everyone’s favorite: The JS Framework of the Month™.</p>
+  <p>We&#39;ll try to stick to the &quot;Tools, not rules&quot; mantra and keep the JS buzzwords to a minimum. Since we won&#39;t
+    be able to cover everything related to JS performance in one or two chapters, make sure you read the references and do
+    your own research afterwards.</p>
+  <p>But before we dive into specifics, let&#39;s get a broader understanding of the issue by answering the following: what
+    is considered as performant JavaScript, and how does it fit into the broader scope of web performance metrics?</p>
+  <h2 id="setting-the-stage">Setting the Stage</h2>
+  <p>First of all, let&#39;s get the following out of the way: if you&#39;re testing exclusively on your desktop device, you&#39;re
+    excluding
+    <a href="http://gs.statcounter.com/platform-market-share/desktop-mobile-tablet">more than 50%</a> of your users.</p>
+  <p>
+    <img src="../images/1511316210mobile-vs-desktop.png" alt="The number of mobile users overtook the number of desktop users in November 2016">
+  </p>
+  <p>This trend will only continue to grow, as the emerging market&#39;s preferred gateway to the web is a sub-$100 Android
+    device. The era of the desktop as the main device to access the Internet is over, and the next billion internet users
+    will visit your sites primarily through a mobile device.</p>
+  <p>Testing in Chrome DevTools&#39; device mode isn&#39;t a valid substitute to testing on a real device. Using CPU and network
+    throttling helps, but it&#39;s a fundamentally different beast. Test on real devices.</p>
+  <p>Even if you
+    <em>are</em> testing on real mobile devices, you&#39;re probably doing so on your brand spanking new $600 flagship phone.
+    The thing is, that&#39;s not the device your users have. The median device is something along the lines of a Moto G1
+    --- a device with under 1GB of RAM, and a very weak CPU and GPU.</p>
+  <p>Let&#39;s see how it stacks up when
+    <a href="https://docs.google.com/spreadsheets/d/1wHcNNQea28LhwQ_amFamT33d5woVrJfJy53Z1k6V090/edit?usp=sharing">parsing an average JS bundle</a>.</p>
+  <p>
+    <img src="../images/1511316294js-chart-1024x633.png" alt="JS parsing speed comparison across devices">
+  </p>
+  <p>Source: Addy Osmani -
+    <a href="https://docs.google.com/spreadsheets/d/1wHcNNQea28LhwQ_amFamT33d5woVrJfJy53Z1k6V090/edit?usp=sheets_home&amp;ths=true">Time spent in JS parse &amp; eval for average JS</a>.</p>
+  <p>Ouch. While this image only covers the parse and compile time of the JS (more on that later) and not general performance,
+    it&#39;s strongly correlated and can be treated as an indicator of general JS performance.</p>
+  <p>To quote Bruce Lawson, “
+    <a href="https://vimeo.com/194968584">it&#39;s the World-Wide Web, not the Wealthy Western Web</a>”. So, your target for web performance is a device that&#39;s
+    <strong>~25x slower</strong> than your MacBook or iPhone. Let that sink in for a bit. But it gets worse. Let&#39;s see what we&#39;re
+    actually aiming for.</p>
+  <h2 id="what-exactly-is-performant-js-code-">What Exactly Is Performant JS Code?</h2>
+  <p>Now that we know what our target platform is, we can answer the next question: what
+    <em>is</em> performant JS code?</p>
+  <p>While there&#39;s no absolute classification of what defines performant code, we do have a user-centric performance model
+    we can use as a reference:
+    <a href="https://developers.google.com/web/fundamentals/performance/rail">The RAIL model</a>.</p>
+  <p>
+    <img src="../images/1511316348rail.png" alt="RAIL: Respond/Animate/Idle work/Load">
+  </p>
+  <p>Source: Sam Saccone -
+    <a href="https://www.youtube.com/watch?v=RWLzUnESylc">Planning for Performance: PRPL</a>
+  </p>
+  <h3 id="respond">Respond</h3>
+  <p>If your app responds to a user action in under 100ms, the user perceives the response as immediate. This applies to tappable
+    elements, but not when scrolling or dragging.</p>
+  <h3 id="animate">Animate</h3>
+  <p>On a 60Hz monitor, we want to target a constant 60 frames per second when animating and scrolling. That results in around
+    16ms per frame. Out of that 16ms budget, you realistically have 8–10ms to do all the work, the rest taken up by the browser
+    internals and other variances.</p>
+  <h3 id="idle-work">Idle work</h3>
+  <p>If you have an expensive, continuously running task, make sure to slice it into smaller chunks to allow the main thread
+    to react to user inputs. You shouldn&#39;t have a task that delays user input for more than 50ms.</p>
+  <h3 id="load">Load</h3>
+  <p>You should target a page load in under 1000ms. Anything over, and your users start getting twitchy. This is a pretty difficult
+    goal to reach on mobile devices as it relates to the page being interactive, not just having it painted on screen and
+    scrollable. In practice, it&#39;s even less:</p>
+  <p>
+    <img src="../images/15113164081000ms.png" alt="JavaScript 1000ms budget">
+  </p>
+  <p>
+    <a href="https://www.youtube.com/watch?v=_srJ7eHS3IM">Fast By Default: Modern Loading Best Practices (Chrome Dev Summit 2017)</a>
+  </p>
+  <p>In practice, aim for the 5s time-to-interactive mark. It&#39;s what Chrome uses in their
+    <a href="https://developers.google.com/web/tools/lighthouse/audits/time-to-interactive">Lighthouse audit</a>.</p>
+  <p>Now that we know the metrics,
+    <a href="https://storage.googleapis.com/doubleclick-prod/documents/The_Need_for_Mobile_Speed_-_FINAL.pdf">let&#39;s have a look at some of the statistics</a>:</p>
+  <ul>
+    <li>53% of visits are abandoned if a mobile site takes more than three seconds to load</li>
+    <li>1 out of 2 people expect a page to load in less than 2 seconds</li>
+    <li>77% of mobile sites take longer than 10 seconds to load on 3G networks</li>
+    <li>19 seconds is the average load time for mobile sites on 3G networks.</li>
+  </ul>
+  <p>
+    <a href="https://medium.com/reloading/javascript-start-up-performance-69200f43b201">And a bit more, courtesy of Addy Osmani</a>:</p>
+  <ul>
+    <li>apps became interactive in 8 seconds on desktop (using cable) and 16 seconds on mobile (Moto G4 over 3G)</li>
+    <li>at the median, developers shipped 410KB of gzipped JS for their pages.</li>
+  </ul>
+  <p>Feeling sufficiently frustrated? Good. Let&#39;s get to work and fix the web. &#9994;</p>
+  <h2 id="context-is-everything">Context is Everything</h2>
+  <p>You might have noticed that the main bottleneck is the time it takes to load up your website. Specifically, the JavaScript
+    download, parse, compile and execution time. There&#39;s no way around it but to load less JavaScript and load smarter.</p>
+  <p>But what about the actual work that your code does aside from just booting up the website? There has to be some performance
+    gains there, right?</p>
+  <p>Before you dive into optimizing your code, consider what you&#39;re building. Are you building a framework or a VDOM library?
+    Does your code need to do thousands of operations per second? Are you doing a time-critical library for handling user
+    input and/or animations? If not, you may want to shift your time and energy somewhere more impactful.</p>
+  <p>It&#39;s not that writing performant code doesn&#39;t matter, but it usually makes little to no impact in the grand scheme
+    of things, especially when talking about microoptimizations. So, before you get into a Stack Overflow argument about
+    <code>.map</code> vs
+    <code>.forEach</code> vs
+    <code>for</code> loops by comparing results from JSperf.com, make sure to see the forest and not just the trees. 50k ops/s
+    might sound 50× better than 1k ops/s on paper, but it won&#39;t make a difference in most cases.</p>
+  <h2 id="parsing-compiling-and-executing">Parsing, Compiling and Executing</h2>
+  <p>Fundamentally, the problem of most non-performant JS is not running the code itself, but all the steps that have to be
+    taken
+    <em>before</em> the code even starts executing.</p>
+  <p>We&#39;re talking about levels of abstraction here. The CPU in your computer runs machine code. Most of the code you&#39;re
+    running on your computer is in the compiled binary format. (I said
+    <em>code</em> rather than
+    <em>programs</em>, considering all the Electron apps these days.) Meaning, all the OS-level abstractions aside, it runs natively
+    on your hardware, no prep-work needed.</p>
+  <p>JavaScript is not pre-compiled. It arrives (via a relatively slow network) as readable code in your browser which is, for
+    all intents and purposes, the &quot;OS&quot; for your JS program.</p>
+  <p>That code first needs to be parsed --- that is, read and turned into an computer-indexable structure that can be used for
+    compiling. It then gets compiled into bytecode and finally machine code, before it can be executed by your device/browser.</p>
+  <p>Another
+    <em>very</em> important thing to mention is that JavaScript is single-threaded, and runs on the browser&#39;s main thread.
+    This means that only one process can run at a time. If your DevTools performance timeline is filled with yellow peaks,
+    running your CPU at 100%, you&#39;ll have long/dropped frames, janky scrolling and all other kind of nasty stuff.</p>
+  <p>
+    <img src="../images/1511316460long-task.jpg" alt="A long-running task in DevTools">
+  </p>
+  <p>Source: Paul Lewis -
+    <a href="https://aerotwist.com/blog/when-everything-is-important-nothing-is/">When everything&#39;s important, nothing is!</a>.</p>
+  <p>So there&#39;s all this work that needs to be done before your JS starts working. Parsing and compiling takes up to 50%
+    of the total time of JS execution in Chrome&#39;s V8 engine.</p>
+  <p>
+    <img src="../images/1511316514mobile-vs-desktop-parse-1024x249.png" alt="Comparison of mobile and desktop JS parse time">
+  </p>
+  <p>Source: Addy Osmani -
+    <a href="https://medium.com/reloading/javascript-start-up-performance-69200f43b201">JavaScript Start-up Performance</a>.</p>
+  <p>There are two things you should take away from this section:</p>
+  <ol>
+    <li>While not necessarily linearly, JS parse time scales with the bundle size. The less JS you ship, the better.</li>
+    <li>Every JS framework you use (React, Vue, Angular, Preact…) is another level of abstraction (unless it&#39;s a precompiled
+      one, like
+      <a href="https://github.com/sveltejs/svelte">Svelte</a>). Not only will it increase your bundle size, but also slow down your code since you&#39;re not talking
+      directly to the browser.</li>
+  </ol>
+  <p>There are ways to mitigate this, such as using service workers to do jobs in the background and on another thread, using
+    asm.js to write code that&#39;s more easily compiled to machine instructions, but that&#39;s a whole &#39;nother topic.</p>
+  <p>What you can do, however, is avoid using JS animation frameworks for everything and
+    <a href="https://csstriggers.com/">read up on what triggers paints and layouts</a>. Use the libraries only when there&#39;s absolutely no way to implement
+    the animation using regular CSS transitions and animations.</p>
+  <p>Even though they may be using CSS transitions, composited properties and
+    <code>requestAnimationFrame()</code>, they&#39;re still running in JS, on the main thread. They&#39;re basically just hammering
+    your DOM with inline styles every 16ms, since there&#39;s not much else they can do. You need to make sure all your JS
+    will be done executing in under 8ms per frame in order to keep the animations smooth.</p>
+  <p>CSS animations and transitions, on the other hand, are running off the main thread --- on the GPU, if implemented performantly,
+    without causing relayouts/reflows.</p>
+  <p>Considering that most animations are running either during loading or user interaction, this can give your web apps the
+    much-needed room to breathe.</p>
+  <p>The
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API">Web Animations API</a> is an upcoming feature set that will allow you to do performant JS animations off the main thread,
+    but for now, stick to CSS transitions and techniques like
+    <a href="https://aerotwist.com/blog/flip-your-animations/">FLIP</a>.</p>
+  <h2 id="bundle-sizes-are-everything">Bundle Sizes are Everything</h2>
+  <p>Today it&#39;s all about bundles. Gone are the times of Bower and dozens of
+    <code>&lt;script&gt;</code> tags before the closing
+    <code>&lt;/body&gt;</code> tag.</p>
+  <p>Now it&#39;s all about
+    <code>npm install</code>-ing whatever shiny new toy you find on NPM, bundling them together with Webpack in a huge single 1MB
+    JS file and hammering your users&#39; browser to a crawl while capping off their data plans.</p>
+  <p>Try shipping less JS. You might not need
+    <a href="https://surma.github.io/underdash/">the entire Lodash library</a> for your project. Do you absolutely
+    <em>need</em> to use a JS framework? If yes, have you considered using something other than React, such as
+    <a href="https://github.com/developit/preact">Preact</a> or
+    <a href="https://viperhtml.js.org/">HyperHTML</a>, which are less than 1/20 the size of React? Do you need
+    <a href="https://greensock.com/tweenmax">TweenMax</a> for that scroll-to-top animation? The convenience of npm and isolated components in frameworks comes with
+    a downside: the first response of developers to a problem has become to throw more JS at it. When all you have is a hammer,
+    everything looks like a nail.</p>
+  <p>When you&#39;re done pruning the weeds and shipping less JS, try shipping it
+    <em>smarter</em>. Ship what you need, when you need it.</p>
+  <p>Webpack 3 has
+    <em>amazing</em> features called
+    <a href="https://webpack.js.org/guides/code-splitting/">code splitting</a> and
+    <a href="https://webpack.js.org/guides/code-splitting/#dynamic-imports">dynamic imports</a>. Instead of bundling all your JS modules into a monolithic
+    <code>app.js</code> bundle, it can automatically split the code using the
+    <code>import()</code> syntax and load it asynchronously.</p>
+  <p>You don&#39;t need to use frameworks, components and client-side routing to gain the benefit of it, either. Let&#39;s say
+    you have a complex piece of code that powers your
+    <code>.mega-widget</code>, which can be on any number of pages. You can simply write the following in your main JS file:</p>
+  <pre><code class="lang-js">if (document.querySelector(&#39;.mega-widget&#39;)) {
+  import(&#39;./mega-widget&#39;);
+}
+</code></pre>
+  <p>If your app finds the widget on the page, it will dynamically load the required supporting code. Otherwise, all&#39;s good.</p>
+  <p>Also, Webpack needs its own runtime to work, and it injects it into all the .js files it generates. If you use the
+    <code>commonChunks</code> plugin, you can use the following to
+    <a href="https://medium.com/connect-the-dots/caching-assets-long-term-with-webpack-5ad24a4c39bd">extract the runtime into its own chunk</a>:</p>
+  <pre><code class="lang-js">new webpack.optimize.CommonsChunkPlugin({
+  name: &#39;runtime&#39;,
+}),
+</code></pre>
+  <p>It will strip out the runtime from all your other chunks into its own file, in this case named
+    <code>runtime.js</code>. Just make sure to load it before your main JS bundle. For example:</p>
+  <pre><code class="lang-html">&lt;script src=&quot;runtime.js&quot;&gt;
+&lt;script src=&quot;main-bundle.js&quot;&gt;
+</code></pre>
+  <p>Then there&#39;s the topic of transpiled code and polyfills. If you&#39;re writing modern (ES6+) JavaScript, you&#39;re
+    probably using Babel to transpile it into ES5 compatible code. Transpiling not only increases file size due to all the
+    verbosity, but also complexity, and it often has
+    <a href="https://github.com/babel/babel/pull/6748">performance regressions</a> compared to native ES6+ code.</p>
+  <p>Along with that, you&#39;re probably using the
+    <code>babel-polyfill</code> package and
+    <code>whatwg-fetch</code> to patch up missing features in older browsers. Then, if you&#39;re writing code using
+    <code>async/await</code>, you also transpile it using generators needed to include the
+    <code>regenerator-runtime</code>…</p>
+  <p>The point is, you add almost 100 kilobytes to your JS bundle, which has not only a huge file size, but also a huge parsing
+    and executing cost, in order to support older browsers.</p>
+  <p>There&#39;s no point in punishing people who are using modern browsers, though. An approach I use, and which Philip Walton
+    covered in
+    <a href="https://philipwalton.com/articles/deploying-es2015-code-in-production-today/">this article</a>, is to create two separate bundles and load them conditionally. Babel makes this easy with
+    <code>babel-preset-env</code>. For instance, you have one bundle for supporting IE 11, and the other without polyfills for
+    the latest versions of modern browsers.</p>
+  <p>A dirty but efficient way is to place the following in an inline script:</p>
+  <pre><code class="lang-js">(function() {
+  try {
+    new Function(&#39;async () =&gt; {}&#39;)();
+    } catch (error) {
+    // create script tag pointing to legacy-bundle.js;
+    return;
+  }
+  // create script tag pointing to modern-bundle.js;;
+})();
+</code></pre>
+  <p>If the browser isn&#39;t able to evaluate an
+    <code>async</code> function, we assume that it&#39;s an old browser and just ship the polyfilled bundle. Otherwise, the user
+    gets the neat and modern variant.</p>
+  <h2 id="conclusion">Conclusion</h2>
+  <p>What we would like you to gain from this article is that JS is expensive and should be used sparingly.</p>
+  <p>Make sure you test your website&#39;s performance on low-end devices, under real network conditions. Your site should load
+    fast and be interactive as soon as possible. This means shipping less JS, and shipping faster by any means necessary.
+    Your code should always be minified, split into smaller, manageable bundles and loaded asynchronously whenever possible.
+    On the server side, make sure it has HTTP/2 enabled for faster parallel transfers and gzip/Brotli compression to drastically
+    reduce the transfer sizes of your JS.</p>
+  <p>And with that said, I&#39;d like to finish off with the following tweet:</p>
+  <blockquote>
+    <p>So it takes a
+      <em>lot</em> for me to get to this point. But seriously folks, time to throw out your frameworks and see how fast browser
+      can be.</p>
+    <p>— Alex Russell (@slightlylate)
+      <a href="https://twitter.com/slightlylate/status/776498573332451328?ref_src=twsrc%5Etfw">September 15, 2016</a>
+    </p>
+  </blockquote>
+</div>

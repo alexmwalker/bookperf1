@@ -1,0 +1,212 @@
+<div class="chapter">
+    <div class="ch-head">Chapter</div>
+    <h1 class="chaptertitle"> Optimizing CSS: Tweaking Animation Performance with DevTools</h1>
+    <h3 class="author">Maria Antonietta Perna</h3>
+    <p>
+        <em>This article is part of a series created in partnership with
+            <a href="https://www.sitepoint.com/siteground-recommended-65-off">SiteGround</a>. Thank you for supporting the partners who make SitePoint possible.</em>
+    </p>
+    <p>
+        <strong>CSS animations are known to be super performant. Although this is the case for simple animations on a few elements,
+            if you didn&#39;t code your animations with performance in mind and add more complexity, website users will soon
+            take notice and possibly get annoyed.</strong>
+    </p>
+    <p>In this article, I introduce some useful browser DevTools features that will enable you to check what happens under the
+        hood when animating with CSS. This way, when an animation looks a bit choppy, you&#39;ll have a better idea why and
+        what you can do to fix it.</p>
+    <h2 id="developer-tools-for-css-performance-">Developer Tools for CSS Performance </h2>
+    <p>Your animations need to hit 60 fps (frames per second) to run fluidly in the browser. The lower the rate, the worse your
+        animation will look. This means the browser has no more than about 16 milliseconds to do its job for one frame. But
+        what does it do during that time? And how would you know if your browser is keeping up with the desired framerate?</p>
+    <p>I think nothing beats user experience when it comes to assessing the quality of an animation. However, developer tools
+        in modern browsers, while not always 100% reliable, have been getting smarter and smarter, and there&#39;s quite
+        a bit you can do to review, edit and debug your code using them.</p>
+    <p>This is also true when you need to check framerate and CSS animation performance. Here&#39;s how it works.</p>
+    <h2 id="exploring-the-performance-tool-in-firefox-">Exploring the Performance Tool in Firefox </h2>
+    <p>In this article I use the Firefox Performance tool. The other big contender is the Chrome Performance Tool. You can pick
+        your favorite, as both browsers offer powerful performance features.</p>
+    <p>To open the developer tools in Firefox, choose one of these options:</p>
+    <ul>
+        <li>Right-click on your web page and choose
+            <em>Inspect Element</em> in the context menu</li>
+        <li>If you use the keyboard, press Ctrl + Shift + I on Windows and Linux or Cmd + Opt + I on macOS.</li>
+    </ul>
+    <p>Next, click on the
+        <em>Performance</em> tab. Here, you&#39;ll find the button that lets you start a recording of your website&#39;s performance:</p>
+    <p>
+        <img src="../images/1494616829devtools-performance-panel.png" alt="Performance panel in Firefox Developer
+Tools.">
+    </p>
+    <p>Press that button and wait for a few seconds or perform some action on the page. When you&#39;re done, click the
+        <em>Stop Recording Performance</em>
+        button:</p>
+    <p>
+        <img src="../images/1494616877stop-recording.png" alt="Stop recording browser activity in the Performance
+panel.">
+    </p>
+    <p>In a split second, Firefox presents you with tons of well-organized data that will help you make sense of which issues
+        your code is suffering from.
+    </p>
+    <p>The result of a recording inside the
+        <em>Performance</em> panel looks something like this:</p>
+    <p>
+        <img src="../images/1494616916complete-recording-screenshot.png" alt="Results of the recording in the Performance
+panel.">
+    </p>
+    <p>The
+        <em>Waterfall</em> section is perfect for checking issues related to CSS transitions and keyframe animations. Other sections
+        are the
+        <em>Call Tree</em>
+        and the
+        <em>JS Flame Chart</em>, which you can use to find out about bottlenecks in your JavaScript code.</p>
+    <p>The Waterfall has a summary section at the top and a detailed breakdown. In both, the data is color-coded:</p>
+    <ul>
+        <li>Yellow bars refer to JavaScript operations.</li>
+        <li>Purple bars refer to calculating HTML elements’ CSS styles (recalculate styles) and laying out your page (layout).
+            Layout operations are quite expensive for the browser to perform, so if you animate properties that involve repeated
+            layouts (also known as
+            <em>reflows</em> --- such as
+            <code>margin</code>,
+            <code>padding</code>,
+            <code>top</code>,
+            <code>left</code>, etc. --- the results could be janky.</li>
+        <li>Green bars refer to painting your elements into one or more bitmaps (Paint). Animating properties like
+            <code>color</code>,
+            <code>background-color</code>,
+            <code>box-shadow</code>, etc., involves costly paint operations, which could be the cause of sluggish animations and
+            poor user experience.</li>
+    </ul>
+    <p>You can also filter the type of data you want to inspect. For instance, I&#39;m interested only in CSS-related data,
+        so I can deselect everything else by clicking on the filter icon at the top left of the screen:</p>
+    <p>
+        <img src="../images/1494616970performance-panel-filter.png" alt="Filter feature inside Firefox Performance Dev
+Tools.">
+    </p>
+    <p>The big green bar below the Waterfall summary represents information on the framerate.</p>
+    <p>A healthy representation would look quite high, but most importantly, consistent --- that is, without too many deep gaps.</p>
+    <p>Let&#39;s illustrate this with an example.</p>
+    <h3 id="the-performance-tool-in-action">The Performance tool in action</h3>
+    <p>This is a simple
+        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations">CSS animation
+        </a>
+        using the
+        <code>@keyframes</code> keyword. The test page looks like this:</p>
+    <p>
+        <img src="../images/1494617022demo-page-visible-box.png" alt="Demo page with rectangular box
+visible.">
+    </p>
+    <p>
+        <img src="../images/1494617057demo-page-disappearing-box.png" alt="Demo page with
+rectangular box about to slide
+out.">
+    </p>
+    <p>The rectangular purple box slides in and out of view in an infinite cycle.
+    </p>
+    <p>I&#39;ve done this by animating the
+        <code>margin-left</code> property of the
+        <code>&lt;div&gt;</code>
+        element that represents the rectangular box on the screen. Here&#39;s what the
+        <code>@keyframes</code> animation block looks like:</p>
+    <pre><code class="lang-css">@keyframes slide-margin { 
+    100% { 
+        margin-left: 0;
+        } 
+    }
+</code></pre>
+    <p>The performance data I get from this animation looks like this:</p>
+    <p>
+        <img src="../images/1494617156slide-margin-recording.png" alt="Recording of animating with margins in Firefox Performance panel of
+the developer
+tools.">
+    </p>
+    <p>The framerate visual looks a bit jagged and the framerate is an average of 44.82 fps, which is a bit low.</p>
+    <p>Also, notice all the layout and paint operations that take place during the animation. These are costly operations the
+        browser performs on its main thread, which has a negative impact on performance.</p>
+    <p>Finally, if you access the
+        <em>Inspector</em> tool, click in the
+        <em>Animation</em>
+        section and hover over the animation name, an information box pops up with all the relevant data about the current animation.
+        If your animation were optimized, there would be a message stating the fact. In this case, there is no message:</p>
+    <p>
+        <img src="../images/1494617204animation-panel-nonoptimized.png" alt="Animation panel inside the Inspector tool with info about the current
+animation.">
+    </p>
+    <p>Now, I&#39;m going to change my code and make a new recording as the browser animates the CSS
+        <code>translate3d()</code> property using this
+        <code>@keyframes</code> block:</p>
+    <pre><code class="lang-css">@keyframes slide-three-d { 
+    100% { transform: translate3d(0, 0, 0); 
+    } 
+}
+</code></pre>
+    <p>This is what the recording of the performance looks like:</p>
+    <p>
+        <img src="../images/1494617268translate-recording.png" alt="Recording of animation done using
+translate3d.">
+    </p>
+    <p>Now the framerate is higher (56.83 fps) and the waterfall is showing no costly layout and paint operations.</p>
+    <p>Also, if you open the
+        <em>Inspector</em> tab of the developer tools, access the
+        <em>Animation</em> panel and hover the mouse over the name of the animation, you can see something like this:</p>
+    <p>
+        <img src="../images/1494617317animation-panel.png" alt="Animation panel in the Inspector of Firefox Developer
+Tools.">
+    </p>
+    <p>The info box relative to the animation name states that all animations are optimized, which is good news for your website
+        visitors.</p>
+    <h2 id="only-animate-css-opacity-transforms-and-filters-">Only Animate CSS
+        <em>Opacity</em>,
+        <em>Transforms</em> and
+        <em>Filters</em>
+    </h2>
+    <p>You&#39;ve probably heard this piece of advice before, but just in case, it&#39;s worth going over it again: if you want
+        your animations to run smoothly, animate only CSS opacity, transforms and filters. Animating everything else will
+        put your browser under pressure to perform costly tasks in very little time, which often doesn&#39;t yield the best
+        results.</p>
+    <p>As the Performance tool in your browser confirms, repeated layout and paint operations are not your friend.</p>
+    <p>However, each browser handles CSS properties a bit differently. If you want to know exactly which browser triggers layout
+        and paint operations for which properties (especially when updating values for those properties, which is what is
+        involved in web animation), head over to
+        <a href="https://csstriggers.com/">CSS Triggers</a>.</p>
+    <p>To ensure performant animations, a popular approach is to force the browser to hand over the work of changing some properties
+        to the GPU (Graphical Processing Unit), which relieves the browser&#39;s main thread of some pressure and takes advantage
+        of hardware acceleration. You can do so by using the
+        <a href="https://developer.mozilla.org/en/docs/Web/CSS/will-change">
+            <code>will-change</code> CSS property
+        </a>, or the
+        <code>translateZ(0)</code> and
+        <code>translate3d(0,0,0)</code> hacks. All of these tricks will work, but if you overdo it you could actually get exactly
+        what you&#39;re trying to avoid, i.e., janky animations.</p>
+    <p>I&#39;m not going into the details of hardware acceleration for web animation performance, but if you&#39;d like to dig
+        deeper, take a look at the resources listed below.</p>
+    <h2 id="resources">Resources</h2>
+    <ul>
+        <li>
+            <a href="https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/">High Performance Animations
+            </a>
+            by Paul Lewis and Paul Irish</li>
+        <li>
+            <a href="http://blogs.adobe.com/webplatform/2014/03/18/css-animations-and-transitions-performance/">CSS animations and transitions performance: looking inside the browser
+            </a>
+            by Max Vujovic</li>
+        <li>
+            <a href="https://developers.google.com/web/fundamentals/design-and-ui/animations/animations-and-performance">Animations and Performance
+            </a>
+            by Paul Lewis and Sam Thorogood</li>
+        <li>
+            <a href="https://developers.google.com/web/fundamentals/performance/rendering/stick-to-compositor-only-properties-and-manage-layer-count">Stick to Compositor-Only Properties and Manage Layer Count
+            </a>
+            by Paul Lewis</li>
+        <li>
+            <a href="https://dev.opera.com/articles/css-will-change-property/">Tricks for GPU Composited CSS
+            </a> by Sara Soueidan</li>
+        <li>
+            <a href="https://www.sitepoint.com/introduction-css-will-change-property/">An Introduction to the CSS will-change Property
+            </a>
+            by Nick Salloum</li>
+        <li>
+            <a href="https://developer.mozilla.org/en-US/docs/Tools/Performance/Scenarios/Animating_CSS_properties">Animating CSS properties
+            </a>
+            by MDN</li>
+    </ul>
+</div>
