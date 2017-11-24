@@ -1,8 +1,6 @@
 .page-frontmatter.front.set-front-matter
   .title-name
-    h2#maintitle #{$.title}
-
-            
+    h2#maintitle #{$.title}     
   |     
   p Copyright © 2017 SitePoint Pty. Ltd.
   |     
@@ -53,9 +51,9 @@
       br
       |  Email: books@sitepoint.com
     |         
-    p ISBN: #{$.isbnprint}
+    //-p ISBN: #{$.isbnprint}
     |         
-    p ISBN: #{$.isbnweb}
+    //-p ISBN: #{$.isbnweb}
     br
     |  Printed and bound in the United States of America
 .page-about.front.set-front-matter    
@@ -69,3 +67,31 @@
   h1#table-of-contents Table of Contents
   |     
   ul
+
+
+
+.preface.set-front-matter
+  h1#preface Preface
+
+  =! html
+  
+
+
+  h3#preface-tips.breakbefore Tips, Notes, and Warnings
+  .box.tip
+    h4 Hey, You!
+    .body
+      p Tips provide helpful little pointers.
+  .box.note
+    h4 Ahem, Excuse Me ...
+    .body
+      p
+        | Notes are useful asides that are related—but not critical—to the topic at hand. Think of them as extra tidbits of information.
+  .box.attention
+    h4 Make Sure You Always ...
+    .body
+      p ... pay attention to these important points.
+  .box.warning
+    h4 Watch Out!
+    .body
+      p Warnings highlight any gotchas that are likely to trip you up along the way.
