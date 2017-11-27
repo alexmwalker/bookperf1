@@ -112,33 +112,6 @@ figure,
     page-break-before: always;
 }
 
-/*
-h1 {
-
-    font-family: font(title, family);
-    font-weight: bold;
-    font-size: 21pt;
-    color: color(theme, black);
-    display: inline-block;
-    //border-bottom: 1px solid color(theme,orange);
-    margin-left: -30pt;
-    padding: 0 0 0 30pt;
-    line-height: .8;
-}
-
-h2 {
-    font-family: font(title, family);
-    font-weight: bold;
-    font-size: 17pt;
-    color: color(theme, black);
-    display: inline-block;
-    //border-bottom: 1px solid color(theme,orange);
-    margin-left:-30pt;
-    margin-bottom: 0;
-    padding: 0 0 0 30pt;
-    line-height: .8;
-}
-*/
 
 h2 code {
     font-size: 90%;
@@ -157,19 +130,6 @@ h2 code {
     margin-top: 0;
     padding-top: 0;
 }
-
-/*
-h3 {
-  color: color(theme, black);
-  margin-bottom: 0;
-}
-
-h3, h4, h5, h6 {
-    font-family: font(title, family);
-    font-weight: bold;
-    font-size: 14pt;
-}
-*/
 
 /* lists */
 
