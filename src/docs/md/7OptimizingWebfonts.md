@@ -144,13 +144,13 @@ Although you could specify all of them in your `@font-face` declaration,
 you can get away with just two of them. Here's how:
 
 ```css 
-    @font-face { 
-        font-family: 'Open Sans'; 
-        src: local('Open Sans'), 
-        local('OpenSans'), 
-        url('fonts/open-sans.woff2')
-        format('woff2'), 
-        url('fonts/open-sans.woff') format('woff'); 
+@font-face { 
+    font-family: 'Open Sans'; 
+    src: local('Open Sans'), 
+    local('OpenSans'), 
+    url('fonts/open-sans.woff2')
+    format('woff2'), 
+    url('fonts/open-sans.woff') format('woff'); 
 } 
 ```  
 
@@ -307,18 +307,18 @@ Controls Module Level
 Here's what this property looks like in code:
 
 ```css 
-    @font-face { font-family: Lato; src:
-        url('/web/css/fonts/lato/lato-regular-webfont.woff2') format('woff2'),
-        url('/web/css/fonts/lato/lato-regular-webfont.woff') format('woff');
-        font-weight: 400; 
-        font-style: normal; /* This value replaces fallback when font has loaded */ 
-        font-display: swap; 
-    } 
-    body { 
-    font-family: Lato, sans-serif; 
+@font-face { font-family: Lato; src:
+    url('/web/css/fonts/lato/lato-regular-webfont.woff2') format('woff2'),
+    url('/web/css/fonts/lato/lato-regular-webfont.woff') format('woff');
     font-weight: 400; 
-    font-style: normal; 
-    } 
+    font-style: normal; /* This value replaces fallback when font has loaded */ 
+    font-display: swap; 
+} 
+body { 
+font-family: Lato, sans-serif; 
+font-weight: 400; 
+font-style: normal; 
+} 
 ```
 
 Accepted values for this property are:

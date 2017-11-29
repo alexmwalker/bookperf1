@@ -144,9 +144,9 @@ Webpack 3 has _amazing_ features called [code splitting](https://webpack.js.org/
 You don't need to use frameworks, components and client-side routing to gain the benefit of it, either. Let's say you have a complex piece of code that powers your `.mega-widget`, which can be on any number of pages. You can simply write the following in your main JS file:
 
 ```js
-    if (document.querySelector('.mega-widget')) {
-        import('./mega-widget');
-    }
+if (document.querySelector('.mega-widget')) {
+    import('./mega-widget');
+}
 ```
 
 If your app finds the widget on the page, it will dynamically load the required supporting code. Otherwise, all's good.
@@ -154,9 +154,9 @@ If your app finds the widget on the page, it will dynamically load the required 
 Also, Webpack needs its own runtime to work, and it injects it into all the .js files it generates. If you use the `commonChunks` plugin, you can use the following to [extract the runtime into its own chunk](https://medium.com/connect-the-dots/caching-assets-long-term-with-webpack-5ad24a4c39bd):
 
 ```js
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'runtime',
-    }),
+new webpack.optimize.CommonsChunkPlugin({
+  name: 'runtime',
+}),
 ```
 
 It will strip out the runtime from all your other chunks into its own file, in this case named `runtime.js`. Just make sure to load it before your main JS bundle. For example:
@@ -177,15 +177,15 @@ There's no point in punishing people who are using modern browsers, though. An a
 A dirty but efficient way is to place the following in an inline script:
 
 ```js
-    (function() {
-      try {
-        new Function('async () => {}')();
-      } catch (error) {
-        // create script tag pointing to legacy-bundle.js;
-        return;
-      }
-      // create script tag pointing to modern-bundle.js;;
-    })();
+(function() {
+  try {
+    new Function('async () => {}')();
+  } catch (error) {
+    // create script tag pointing to legacy-bundle.js;
+    return;
+  }
+  // create script tag pointing to modern-bundle.js;;
+})();
 ```
 
 If the browser isn't able to evaluate an `async` function, we assume that it's an old browser and just ship the polyfilled bundle. Otherwise, the user gets the neat and modern variant.

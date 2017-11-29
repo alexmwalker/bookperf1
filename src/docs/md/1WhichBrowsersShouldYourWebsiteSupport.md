@@ -2,15 +2,10 @@
 template: chapter.pug
 title: 'SitePoint' 
 chaptertitle: 'Which Browsers Should Your Website Support?'
-chapterauthor: Craig Buckler 
+chapterauthor: 'Craig Buckler'
 ---
 
 
- 
-
-*This chapter is part of a series created in partnership with
-[SiteGround](https://www.siteground.com/go/article-sp). Thank you for
-supporting the partners who make SitePoint possible.* 
 
 **The question *"which browsers should my website/app support?"* is
 often raised by clients and developers. The simple answer is a list of

@@ -42,19 +42,19 @@ You can learn the details of how to use `will-change`, its benefits and downside
 JavaScript animations have commonly been coded using either [setInterval()][10] or [setTimeout()][11].
 
 The code would look something like this:
-    
+
 ```js    
-    var timer;
-    function animateElement() {
-      timer = setInterval( function() {
-        // animation code goes here
-      } , 2000 );
-    }
-    
-    // To stop the animation, use clearInterval
-    function stopAnimation() {
-      clearInterval(timer);
-    }
+var timer;
+function animateElement() {
+  timer = setInterval( function() {
+    // animation code goes here
+  } , 2000 );
+}
+
+// To stop the animation, use clearInterval
+function stopAnimation() {
+  clearInterval(timer);
+}
 ```    
 
 Although this works, the risk of jank is high, because the callback function runs at some point in the frame, perhaps at the very end, which can result in one or more frames being missed. Today, you can use a native JavaScript method which is tailored for smooth web animation (DOM animation, canvas, etc.), called [requestAnimationFrame()][12].
@@ -62,17 +62,17 @@ Although this works, the risk of jank is high, because the callback function run
 `requestAnimationFrame()` executes your animation code at the most appropriate time for the browser, usually at the beginning of the frame.
 
 Your code could look something like this:
-    
+
 ```js   
-    function makeChange( time ) {
-      // Animation logic here
-    
-      // Call requestAnimationFrame recursively inside the callback function
-      requestAnimationFrame( makeChange ):
-    }
-    
-    // Call requestAnimationFrame again outside the callback function
-    requestAnimationFrame( makeChange );
+function makeChange( time ) {
+  // Animation logic here
+
+  // Call requestAnimationFrame recursively inside the callback function
+  requestAnimationFrame( makeChange ):
+}
+
+// Call requestAnimationFrame again outside the callback function
+requestAnimationFrame( makeChange );
 ```
 
 [Performance with requestAnimationFrame][13] by Tim Evko here on SitePoint offers a great video introduction to coding with `requestAnimationFrame()`.

@@ -91,7 +91,7 @@ The `src` attribute of the `img` tag is replaced with a `data-src`
 attribute in the markup:
 
 ```html 
-    <img data-src="image.jpg" alt="test image"> 
+<img data-src="image.jpg" alt="test image"> 
 ```
 
 In the CSS, `img` elements with a `data-src` attribute are hidden. Once
@@ -99,9 +99,9 @@ loaded, images will appear with a nice fade-in effect using CSS
 transitions:
 
 ```css 
-    img { opacity: 1; transition: opacity 0.3s; }
-    img[data-src] { opacity: 0; 
-    } 
+img { opacity: 1; transition: opacity 0.3s; }
+img[data-src] { opacity: 0; 
+} 
 ```
 
 JavaScript then adds the `src` attribute to each `img` element and gives
@@ -110,14 +110,14 @@ finished loading, the script removes the `data-src` attribute from `img`
 elements altogether:
 
 ```js
-    .forEach.call(document.querySelectorAll('img[data-src]'),
-    function(img) { 
-        img.setAttribute('src', 
-        img.getAttribute('data-src'));
-        img.onload = function() { 
-        img.removeAttribute('data-src'); 
-        }; 
-    });
+.forEach.call(document.querySelectorAll('img[data-src]'),
+function(img) { 
+    img.setAttribute('src', 
+    img.getAttribute('data-src'));
+    img.onload = function() { 
+    img.removeAttribute('data-src'); 
+    }; 
+});
 ``` 
 
 David Walsh also offers a fallback solution to cover cases where
@@ -189,8 +189,8 @@ library](http://jquery.com/), followed by one of the two Lazy Load XT
 flavors mentioned above. For instance:
 
 ```html 
-    <script src="jquery.js"></script>
-    <script src="jquery.lazyloadxt.js"></script> 
+<script src="jquery.js"></script>
+<script src="jquery.lazyloadxt.js"></script> 
 ```
 
 If you don't want to use jQuery, Lazy Load XT offers a much lighter
@@ -198,15 +198,15 @@ option, a [small script called
 `jqlight.lazyloadxt.min.js`](https://raw.githubusercontent.com/ressio/lazy-load-xt/master/dist/jqlight.lazyloadxt.min.js):
 
 ```html 
-    <script src="jqlight.lazyloadxt.js"></script> 
-    <script src="jquery.lazyloadxt.js"></script> 
+<script src="jqlight.lazyloadxt.js"></script> 
+<script src="jquery.lazyloadxt.js"></script> 
 ```
 
 In your HTML document, mark up images using a `data-src` attribute
 instead of the regular `src` attribute, like this:
 
 ```html 
-    <img data-src="lazy.jpg" width="100" height="100" alt="test image"> 
+<img data-src="lazy.jpg" width="100" height="100" alt="test image"> 
 ```
 
 
@@ -215,8 +215,7 @@ initialize it yourself. For instance, to initialize a selection of
 elements write:
 
 ```js 
-    $(elements).lazyLoadXT(); 
-
+$(elements).lazyLoadXT(); 
 ```
 
 This plugin makes tons of add-ons for extra functionality available. To
@@ -303,9 +302,9 @@ The JavaScript: enter a simple call to bLazy and fine-tune with a map of
 options:
 
 ```js 
-    var bLazy = new Blazy({ 
-        //options here 
-    });
+var bLazy = new Blazy({ 
+    //options here 
+});
 ```
 
 To learn more on bLazy and its available options, follow these links:

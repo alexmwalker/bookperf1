@@ -131,11 +131,11 @@ element that represents the rectangular box on the screen. Here's what
 the `@keyframes` animation block looks like:
 
 ```css 
-    @keyframes slide-margin { 
-    100% { 
-        margin-left: 0;
-        } 
+@keyframes slide-margin { 
+100% { 
+    margin-left: 0;
     } 
+} 
 ```
 
 The performance data I get from this animation looks like this:
@@ -164,10 +164,10 @@ Now, I'm going to change my code and make a new recording as the browser
 animates the CSS `translate3d()` property using this `@keyframes` block:
 
 ```css 
-    @keyframes slide-three-d { 
-    100% { transform: translate3d(0, 0, 0); 
-        } 
+@keyframes slide-three-d { 
+100% { transform: translate3d(0, 0, 0); 
     } 
+} 
 ```
 
 This is what the recording of the performance looks like:
