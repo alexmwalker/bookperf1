@@ -92,11 +92,12 @@ cycle.</p>
 <p>I&#39;ve done this by animating the <code>margin-left</code> property of the <code>&lt;div&gt;</code>
 element that represents the rectangular box on the screen. Here&#39;s what
 the <code>@keyframes</code> animation block looks like:</p>
-<pre><code class="lang-css">    @keyframes slide-margin { 
-    100% { 
-        margin-left: 0;
-        } 
-    }
+<pre><code class="lang-css">    
+@keyframes slide-margin { 
+100% { 
+    margin-left: 0;
+    } 
+}
 </code></pre>
 <p>The performance data I get from this animation looks like this:</p>
 <p><img src="../images/1494617156slide-margin-recording.png" alt="Recording of animating with margins in Firefox Performance panel of

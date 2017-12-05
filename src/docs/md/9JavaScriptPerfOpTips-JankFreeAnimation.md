@@ -121,9 +121,7 @@ You can find the details and code samples relative to this tip and lots more in 
 
 Optimizing code for performance is a necessary task if you don't want to fail users' expectations on the web today, but it's by no means always easy or straightforward. There might be several reasons why your animations aren't performing well, but if you try out the tips I listed above, you'll go a long way towards avoiding the most common animation performance pitfalls, thereby improving the user experience of your website or app.
 
-[ ![Maria Antonietta Perna][22]][23]
 
-Maria Antonietta Perna is co-Editor of the HTML/CSS Channel at SitePoint and a front-end web developer. She enjoys tinkering with cool CSS standards and is curious about teaching approaches to front-end code. When not coding for the web or not writing for the web, she enjoys philosophy books, long walks and good food.
 
 [1]: https://www.smashingmagazine.com/2017/01/how-functional-animation-helps-improve-user-experience/
 [2]: http://jankfree.org/
@@ -146,5 +144,3 @@ Maria Antonietta Perna is co-Editor of the HTML/CSS Channel at SitePoint and a f
 [19]: https://developers.google.com/web/tools/chrome-devtools/
 [20]: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 [21]: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas
-[22]: https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2015/01/1422003380perna-96x96.jpg
-[23]: https://www.sitepoint.com/author/mperna/

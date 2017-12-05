@@ -301,7 +301,8 @@ You need to modify the regular `img` tag as follows:
 The JavaScript: enter a simple call to bLazy and fine-tune with a map of
 options:
 
-```js 
+```js
+
 var bLazy = new Blazy({ 
     //options here 
 });

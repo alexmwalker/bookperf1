@@ -75,15 +75,17 @@
 <p>When you&#39;re done pruning the weeds and shipping less JS, try shipping it <em>smarter</em>. Ship what you need, when you need it.</p>
 <p>Webpack 3 has <em>amazing</em> features called <a href="https://webpack.js.org/guides/code-splitting/">code splitting</a> and <a href="https://webpack.js.org/guides/code-splitting/#dynamic-imports">dynamic imports</a>. Instead of bundling all your JS modules into a monolithic <code>app.js</code> bundle, it can automatically split the code using the <code>import()</code> syntax and load it asynchronously.</p>
 <p>You don&#39;t need to use frameworks, components and client-side routing to gain the benefit of it, either. Let&#39;s say you have a complex piece of code that powers your <code>.mega-widget</code>, which can be on any number of pages. You can simply write the following in your main JS file:</p>
-<pre><code class="lang-js">    if (document.querySelector(&#39;.mega-widget&#39;)) {
-        import(&#39;./mega-widget&#39;);
-    }
+<pre><code class="lang-js">    
+if (document.querySelector(&#39;.mega-widget&#39;)) {
+      import(&#39;./mega-widget&#39;);
+  }
 </code></pre>
 <p>If your app finds the widget on the page, it will dynamically load the required supporting code. Otherwise, all&#39;s good.</p>
 <p>Also, Webpack needs its own runtime to work, and it injects it into all the .js files it generates. If you use the <code>commonChunks</code> plugin, you can use the following to <a href="https://medium.com/connect-the-dots/caching-assets-long-term-with-webpack-5ad24a4c39bd">extract the runtime into its own chunk</a>:</p>
-<pre><code class="lang-js">    new webpack.optimize.CommonsChunkPlugin({
-      name: &#39;runtime&#39;,
-    }),
+<pre><code class="lang-js">    
+new webpack.optimize.CommonsChunkPlugin({
+    name: &#39;runtime&#39;,
+  }),
 </code></pre>
 <p>It will strip out the runtime from all your other chunks into its own file, in this case named <code>runtime.js</code>. Just make sure to load it before your main JS bundle. For example:</p>
 <pre><code class="lang-html">&lt;script src=&quot;runtime.js&quot;&gt;
@@ -94,15 +96,16 @@
 <p>The point is, you add almost 100 kilobytes to your JS bundle, which has not only a huge file size, but also a huge parsing and executing cost, in order to support older browsers.</p>
 <p>There&#39;s no point in punishing people who are using modern browsers, though. An approach I use, and which Philip Walton covered in <a href="https://philipwalton.com/articles/deploying-es2015-code-in-production-today/">this article</a>, is to create two separate bundles and load them conditionally. Babel makes this easy with <code>babel-preset-env</code>. For instance, you have one bundle for supporting IE 11, and the other without polyfills for the latest versions of modern browsers.</p>
 <p>A dirty but efficient way is to place the following in an inline script:</p>
-<pre><code class="lang-js">    (function() {
-      try {
-        new Function(&#39;async () =&gt; {}&#39;)();
-      } catch (error) {
-        // create script tag pointing to legacy-bundle.js;
-        return;
-      }
-      // create script tag pointing to modern-bundle.js;;
-    })();
+<pre><code class="lang-js">    
+(function() {
+    try {
+      new Function(&#39;async () =&gt; {}&#39;)();
+    } catch (error) {
+      // create script tag pointing to legacy-bundle.js;
+      return;
+    }
+    // create script tag pointing to modern-bundle.js;;
+  })();
 </code></pre>
 <p>If the browser isn&#39;t able to evaluate an <code>async</code> function, we assume that it&#39;s an old browser and just ship the polyfilled bundle. Otherwise, the user gets the neat and modern variant.</p>
 <h2 id="conclusion">Conclusion</h2>

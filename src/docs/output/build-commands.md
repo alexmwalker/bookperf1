@@ -1,8 +1,18 @@
 # Build a Book from HTML chapters
 
-## MD Code samples
+## Rewriting Links in MD to be local
 
+To re-write the image URLs in a single MD file (let's say 'test.md'), move to the 'md' folder in terminal and type:
 
+```shell
+    gsed -i 's/\(!\[.*\](\).*\/\([^)]*\)\()\)/\1..\/images\/\2\3/g' test.md
+```
+
+To hit the entire folder of MD docs:
+
+```shell
+gsed -i 's/\(!\[.*\](\).*\/\([^)]*\)\()\)/\1..\/images\/\2\3/g' *.md
+```
 
 ## Use CAT in terminal to concatenate the HTML files
 
