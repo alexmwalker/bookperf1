@@ -36,11 +36,12 @@ figure,
     page-break-inside: avoid;
 }
 
-
+/* Chapter pages */ 
 
 .chapter {
     padding-top: 0px;
     page-break-before: always;
+    position: relative;
 }
 
 .ch-head {
@@ -50,9 +51,8 @@ figure,
     font-family: 'Raleway';
     //outline: 1px blue dashed;
     color: #9ab;
-    //height: 200px;
     font-weight: 600; //color: color(theme,blue);
-    margin-top: 25rem;
+    margin-top: 22rem;
     right: 0%;
     text-align: center; 
     page-break-after: avoid;
@@ -75,7 +75,7 @@ figure,
 }
 
 .ch-head + h1 {
-    margin-top: 28rem;
+    margin-top: 25rem;
     font-size: 48px;
     position: relative;
     float: right;
@@ -96,12 +96,13 @@ figure,
     
     margin: 0 30% 3rem 0;
     font-size: 24px;
+
     line-height: 100%;
     padding-right: 2rem;
     color: #9ab;
     letter-spacing: 0.5px;
     text-align: right;
-    //outline: 1px red dashed;
+    
     page-break-before: avoid;
     page-break-after: always;
 }
@@ -111,7 +112,10 @@ figure,
     clear: both;
     page-break-before: always;
 }
-
+h3.author{
+    //outline: 1px red dashed;
+    font-weight: bold;
+}
 
 h2 code {
     font-size: 90%;
