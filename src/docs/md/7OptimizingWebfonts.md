@@ -66,17 +66,14 @@ Text**, or **FOIT** for short.
 
 ![FOIT: Page at http://blog.instagram.com/ while fonts are
 loading on Firefox v.52. Text is
-invisible.](../images/1492627730foit-loading.png) FOIT: Page at
-http://blog.instagram.com/ while fonts are loading on Firefox v.52. Text
-is invisible.
+invisible.](../images/1492627730foit-loading.png) 
+
 
 ![FOIT: Page at
 http://blog.instagram.com/ after fonts have been loaded on Firefox v.52.
 Text has become
 visible](../images/1492627776foit-loaded.png)
-FOIT: Page at
-http://blog.instagram.com/ after fonts have been loaded on Firefox v.52.
-Text has become visible.
+
 
 In other words, as soon as browsers start downloading a font, all text
 becomes invisible. So users look at a screen with no text for some time,
@@ -222,11 +219,11 @@ you could do this today:
 
 
 ```css
-    body { 
-        font-family: -apple-system, BlinkMacSystemFont, 
-        "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell,
-        "Helvetica Neue", sans-serif; 
-        } 
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, 
+    "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+    "Helvetica Neue", sans-serif; 
+    } 
 ```
 
 [The New System Font
@@ -315,9 +312,9 @@ Here's what this property looks like in code:
     font-display: swap; 
 } 
 body { 
-font-family: Lato, sans-serif; 
-font-weight: 400; 
-font-style: normal; 
+    font-family: Lato, sans-serif; 
+    font-weight: 400; 
+    font-style: normal; 
 } 
 ```
 

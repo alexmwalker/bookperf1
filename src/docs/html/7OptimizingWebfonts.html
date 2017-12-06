@@ -17,16 +17,16 @@
                 already installed on users&#39; devices.
         </p>
         <p>Since browser support for the CSS
-                <code>@font-face</code> rule has become widespread, using custom web fonts in websites has increased by leaps and
-                bounds. However, fonts can have a heavy file size, and loading extra resources on your website doesn&#39;t
-                come without some negative impact on performance.
+                <code>@font-face</code> rule has become widespread, using custom web fonts in websites has increased by leaps and bounds. However,
+                fonts can have a heavy file size, and loading extra resources on your website doesn&#39;t come without some
+                negative impact on performance.
         </p>
         <p>Since file size can certainly be an issue, paying attention to how custom web fonts are loaded comes to the forefront.</p>
         <h2 id="what-is-the-flash-of-invisible-text-foit-all-about-">What Is the Flash of Invisible Text (FOIT) All About? </h2>
         <p>The most common way of using a custom web font is to specify the fonts used inside a CSS
-                <code>@font-face</code> declaration and leave the browser to its default behavior. This is not ideal. Since information
-                about fonts is located in the CSS, by default browsers delay the loading of fonts until the CSS is parsed.
-                That&#39;s not all. As
+                <code>@font-face</code> declaration and leave the browser to its default behavior. This is not ideal. Since information about fonts
+                is located in the CSS, by default browsers delay the loading of fonts until the CSS is parsed. That&#39;s
+                not all. As
                 <a href="https://www.zachleat.com/web/lazy-loading-webfonts/">Zach Leatherman
                 </a> has made abundantly clear, to trigger a font download, a number of conditions must be met besides a
                 valid
@@ -49,17 +49,17 @@
                 <strong>font starts loading that web users are likely to experience the dreaded Flash Of Invisible Text
                 </strong>, or
                 <strong>FOIT</strong> for short.</p>
-        <p>
+        
                 <img src="../images/1492627730foit-loading.png" alt="FOIT: Page at http://blog.instagram.com/ while fonts are
 loading on Firefox v.52. Text is
-invisible."> FOIT: Page at
-                <a href="http://blog.instagram.com/">http://blog.instagram.com/</a> while fonts are loading on Firefox v.52. Text is invisible.</p>
-        <p>
+invisible.">
+               
+       
                 <img src="../images/1492627776foit-loaded.png" alt="FOIT: Page at
 http://blog.instagram.com/ after fonts have been loaded on Firefox v.52.
 Text has become
-visible"> FOIT: Page at
-                <a href="http://blog.instagram.com/">http://blog.instagram.com/</a> after fonts have been loaded on Firefox v.52. Text has become visible.</p>
+visible"> 
+
         <p>In other words, as soon as browsers start downloading a font, all text becomes invisible. So users look at a screen
                 with no text for some time, which under sub-par network conditions can feel like forever. Furthermore, the
                 way different browsers handle FOIT also varies:</p>
@@ -129,8 +129,8 @@ visible"> FOIT: Page at
         <p>Fonts usually have different variants --- italic, bold, etc. Each font variation adds weight to the file size, so
                 try to avoid adding a font variation to your
                 <code>@font-face</code> code if you&#39;re not going to use it on your website. Keep in mind that if you use an
-                <code>&lt;i&gt;</code> tag to add an icon, which is quite common, that is enough to get the browser to load the
-                italic font variant (
+                <code>&lt;i&gt;</code> tag to add an icon, which is quite common, that is enough to get the browser to load the italic font variant
+                (
                 <a href="https://speakerdeck.com/zachleat/the-performance-and-usability-of-font-loading-velocity-santa-clara-2015">Slide 77 in Zack Leatherman&#39;s Santa Clara Velocity talk of 2015
                 </a>). If that&#39;s the only instance of
                 <code>&lt;i&gt;</code> in your page, using a
@@ -204,10 +204,9 @@ body {
         <p>At the time of writing, the latest versions of
                 <a href="http://caniuse.com/#search=css%20font%20loading">Chrome, Firefox, Safari and Opera support this API
                 </a>, while IE/Edge doesn&#39;t offer support yet. However, you can use a small JavaScript library, the
-                <a
-                        href="https://github.com/bramstein/fontfaceobserver">Font Face Observer
-                        </a>, to polyfill the native CSS Font Loading API, or simply let non-supporting browsers degrade
-                        gracefully to web-safe fonts.</p>
+                <a href="https://github.com/bramstein/fontfaceobserver">Font Face Observer
+                </a>, to polyfill the native CSS Font Loading API, or simply let non-supporting browsers degrade gracefully
+                to web-safe fonts.</p>
         <p>For a short tutorial on how to use the CSS Font Loading API, head over to
                 <a href="https://medium.com/@matuzo/getting-started-with-css-font-loading-e24e7ffaa791">Getting started with CSS Font Loading
                 </a>
@@ -218,8 +217,8 @@ body {
                 <code>font-display</code> Property </h2>
         <p>Since their first appearance, you&#39;ve handled custom fonts using CSS
                 <code>@font-face</code> and
-                <code>font-family</code>. It&#39;s only fair to expect CSS to solve any issue related to downloading custom fonts.
-                But at present, only JavaScript-based solutions are usable.</p>
+                <code>font-family</code>. It&#39;s only fair to expect CSS to solve any issue related to downloading custom fonts. But at present,
+                only JavaScript-based solutions are usable.</p>
         <p>However, this won&#39;t be so indefinitely. A smart CSS property is around the corner,
                 <code>font-display</code>, which is part of the
                 <a href="https://tabatkins.github.io/specs/css-font-display/">CSS Font Rendering Controls Module Level 1
@@ -259,22 +258,23 @@ body {
                         custom font in as soon as it loads.</li>
                 <li>
                         <strong>fallback</strong>: similar behavior to
-                        <code>swap</code>. However, if too much time passes until the custom font loads, browsers use the fallback
-                        font for the duration of the page&#39;s lifetime.</li>
+                        <code>swap</code>. However, if too much time passes until the custom font loads, browsers use the fallback font for
+                        the duration of the page&#39;s lifetime.</li>
                 <li>
                         <strong>optional</strong>: this super smart value lets browsers use the custom font only if it&#39;s already
                         available. If it isn&#39;t, browsers use the fallback for the duration of the page&#39;s lifetime.
                         The custom font may still be downloaded in the background for use on subsequent page loads. However,
                         if browsers detect limited bandwidth on users&#39; devices, they might not load the custom font at
-                        all.</li>
+                        all.
+                </li>
         </ul>
         <p>From these short descriptions, you can already see how
                 <code>swap</code> and
                 <code>optional</code> could be super useful.</p>
         <p>
                 <a href="http://caniuse.com/#search=font-display">Browser support</a> for
-                <code>font-display</code> is non-existent at this time, but it can be enabled in Chrome (via the Experimental Web
-                Platform features&quot; flag) and Firefox (via the
+                <code>font-display</code> is non-existent at this time, but it can be enabled in Chrome (via the Experimental Web Platform features&quot;
+                flag) and Firefox (via the
                 <code>layout.css.font-display.enabled</code> flag).</p>
         <h2 id="what-about-fout-">What About FOUT? </h2>
         <p>Although all the approaches outlined above make possible the elimination of FOIT, either by swapping in the custom

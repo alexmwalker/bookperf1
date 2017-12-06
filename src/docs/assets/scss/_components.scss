@@ -118,14 +118,16 @@ section#cover{
     @include box-icon;
 }
 
-/* code
+
 figure{
     margin: 0;
     -webkit-margin-before: 0em;
     -webkit-margin-after: 0em;
     -webkit-margin-start: 0px;
     -webkit-margin-end: 0px;
+    margin-bottom: 1.5rem;
 }
+/* code
 .codeblock {
     @include font-monospace;
     //background-color: color(backgrounds, codeblock);
